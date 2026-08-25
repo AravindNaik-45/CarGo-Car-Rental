@@ -1,0 +1,87 @@
+.hero {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  padding: 60px;
+  background: #f3f5f7;
+}
+.hero-content {
+  max-width: 600px;
+}
+
+.hero-small-text {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+}
+
+.hero h1 {
+  font-size: 64px;
+  line-height: 1.05;
+  margin: 15px 0;
+}
+
+.hero p {
+  font-size: 18px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.explore-btn {
+  margin-top: 20px;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  background: #111;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+/* Popular Cars */
+
+.popular-cars {
+  padding: 70px 60px;
+}
+
+.popular-cars h2 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.car-container {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 1fr);
+  gap: 25px;
+  margin-top: 40px;
+}
+
+.car-card {
+  padding: 20px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+
+.car-image {
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #f3f3f3;
+
+  border-radius: 12px;
+
+  font-size: 70px;
+}
+
+.car-card h3 {
+  margin-top: 20px;
+}
+
+.car-card p {
+  color: #555;
+}
