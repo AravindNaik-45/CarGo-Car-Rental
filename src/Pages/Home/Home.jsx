@@ -1,4 +1,6 @@
 import "./Home.css";
+import SearchBar from "../../Components/Searchbar/SearchBar";
+import WhyChoose from "../../Components/WhyChoose/WhyChoose";
 
 function Home() {
   return (
@@ -20,7 +22,8 @@ function Home() {
           </button>
         </div>
       </section>
-      <section className="popular-cars">
+      <SearchBar/>
+      {/* <section className="popular-cars">
         <h2>Popular Cars</h2>
         <p>Choose from our most popular rental cars.</p>
         <div className="car-container">
@@ -46,7 +49,7 @@ function Home() {
             <p>₹6,000 / day</p>
           </div>
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }
