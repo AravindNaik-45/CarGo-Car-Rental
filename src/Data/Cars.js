@@ -62,7 +62,7 @@ const cars = [
   {
     id: 6,
     name: "Hyundai Creta",
-    image:"/assets/creta.jpg",
+    image:"/assets/cretaa.jpg",
     brand: "Hyundai",
     category: "SUV",
     price: 2500,

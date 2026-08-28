@@ -18,7 +18,7 @@ function Home() {
         </div>
            {/* RIGHT SIDE - CAR IMAGE */}
         <div className="hero-image">
-          <img  src="/assets/Audi_logo.png" alt="BMW rental car" />
+          <img  src="/assets/Audi_logo.png" alt="Audi rental car" />
         </div>
       </section>
 
