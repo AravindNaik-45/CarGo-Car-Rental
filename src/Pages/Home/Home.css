@@ -72,8 +72,7 @@
 }
 .car-container {
   display: grid;
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
+  grid-template-columns:repeat(3, minmax(0, 1fr));
   gap: 25px;
   max-width: 1200px;
   margin: 40px auto 0;
@@ -93,6 +92,32 @@
 .car-card p {
   color: #555;
 }
+.category-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
+  margin-left: 70px;
+  margin-bottom: 30px;
+}
+.category-btn {
+  padding: 10px 20px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.category-btn:hover {
+  background: #f3f3f3;
+}
+.category-btn.active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+
 @media (max-width: 900px) {
   .car-container {
     grid-template-columns:

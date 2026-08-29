@@ -45,13 +45,11 @@
 .search-btn:hover {
   opacity: 0.8;
 }
-
 @media (max-width: 900px) {
   .search-box {
     grid-template-columns: 1fr 1fr;
   }
 }
-
 @media (max-width: 600px) {
   .search-box {
     grid-template-columns: 1fr;
