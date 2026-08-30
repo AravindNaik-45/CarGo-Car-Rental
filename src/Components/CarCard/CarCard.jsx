@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./CarCard.css"
 
 function CarCard({ car }) {
@@ -22,9 +23,11 @@ function CarCard({ car }) {
             <strong>₹{car.price}</strong>
             <span> / day</span>
           </div>
-          <button>
+          <Link
+            to={`/cars/${car.id}`}
+            className="view-details-btn">
             View Details
-          </button>
+          </Link>
         </div>
       </div>
     </div>
