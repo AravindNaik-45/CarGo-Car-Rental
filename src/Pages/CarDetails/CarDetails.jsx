@@ -1,9 +1,11 @@
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import cars from "../../Data/Cars";
 import "./CarDetails.css";
 
 function CarDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const car = cars.find((car) => car.id === Number(id));
   if (!car) {
     return <h2>Car not found</h2>;
@@ -43,6 +45,9 @@ function CarDetails() {
             <strong>₹{car.price}</strong>
             <span> / day</span>
           </div>
+          <button className="car-details-book-btn" onClick={() => navigate(`/booking/${car.id}`)}>
+            Book Now
+          </button>
         </div>
       </div>
     </section>

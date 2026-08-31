@@ -1,0 +1,206 @@
+/* Booking Page */
+/* ============================= */
+.booking-page {
+  min-height: 100vh;
+  background: #f5f6f7;
+  padding: 60px 80px;
+}
+/* ============================= */
+/* Booking Header */
+/* ============================= */
+.booking-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.booking-label {
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: #555;
+  margin-bottom: 12px;
+}
+.booking-header h1 {
+  font-size: 48px;
+  margin: 0 0 15px;
+}
+.booking-header p {
+  color: #666;
+  font-size: 17px;
+}
+/* ============================= */
+/* Booking Layout */
+/* ============================= */
+.booking-layout {
+  max-width: 1150px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+/* ============================= */
+/* Selected Car Section */
+/* ============================= */
+.booking-car-section {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+.booking-car-section h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+/* ============================= */
+/* Car Card */
+/* ============================= */
+.booking-car-card {
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  overflow: hidden;
+  background: white;
+}
+.booking-car-image-box {
+  width: 100%;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2f3f4;
+}
+.booking-car-image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.booking-car-information {
+  padding: 20px;
+}
+.booking-car-information h3 {
+  font-size: 23px;
+  margin: 0 0 8px;
+}
+.booking-car-information p {
+  color: #666;
+  margin: 8px 0;
+}
+/* ============================= */
+/* Price */
+/* ============================= */
+.booking-car-price {
+  margin-top: 15px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.booking-car-price span {
+  font-size: 14px;
+  font-weight: normal;
+  color: #666;
+}
+/* ============================= */
+/* Booking Form Section */
+/* ============================= */
+.booking-form-section {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+.booking-form-section h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+/* ============================= */
+/* Form */
+/* ============================= */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.booking-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.booking-form-group label {
+  font-size: 15px;
+  font-weight: 600;
+}
+.booking-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+.booking-form-group input:focus {
+  border-color: #111;
+}
+/* ============================= */
+/* Date Fields */
+/* ============================= */
+.booking-date-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+/* ============================= */
+/* Submit Button */
+/* ============================= */
+.booking-submit-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  background: #111;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.booking-submit-btn:hover {
+  background: #333;
+}
+/* ============================= */
+/* Car Not Found */
+/* ============================= */
+.booking-not-found {
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.booking-not-found h2 {
+  font-size: 32px;
+}
+/* ============================= */
+/* Responsive */
+/* ============================= */
+@media (max-width: 900px) {
+  .booking-page {
+    padding: 40px 25px;
+  }
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .booking-header h1 {
+    font-size: 36px;
+  }
+  .booking-date-row {
+    grid-template-columns: 1fr;
+  }
+  .booking-form-section {
+    padding: 20px;
+  }
+}
