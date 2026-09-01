@@ -46,8 +46,7 @@ function CarDetails() {
             <span> / day</span>
           </div>
           <button className="car-details-book-btn" onClick={() => navigate(`/booking/${car.id}`)}>
-            Book Now
-          </button>
+            Book Now</button>
         </div>
       </div>
     </section>

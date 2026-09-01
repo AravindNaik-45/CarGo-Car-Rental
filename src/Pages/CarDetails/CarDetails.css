@@ -40,6 +40,18 @@
   font-size: 18px;
   margin-bottom: 30px;
 }
+.car-details-book-btn{
+   border: none;
+  background: #111111;
+  color: white;
+  padding: 15px 25px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.car-details-book-btn:hover{
+  background-color: #333333;
+}
 /* SPECIFICATIONS */
 .car-specs {
   display: flex;

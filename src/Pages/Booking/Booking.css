@@ -204,3 +204,45 @@
     padding: 20px;
   }
 }
+/* ============================= */
+/* Booking Summary */
+/* ============================= */
+.booking-summary {
+  margin-top: 10px;
+  padding: 20px;
+  background: #f5f6f7;
+  border-radius: 10px;
+  border: 1px solid #e2e2e2;
+}
+.booking-summary h3 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 19px;
+}
+.booking-summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  color: #555;
+}
+.booking-summary-row strong {
+  color: #111;
+}
+.booking-summary-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid #ddd;
+}
+.booking-summary-total span {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+.booking-summary-total strong {
+  font-size: 24px;
+  color: #111;
+}

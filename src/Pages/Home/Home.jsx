@@ -12,14 +12,9 @@ function Home() {
   const handleSearch = (data) =>{
     setSearchData(data);
   }
-
   const filteredCars =
   selectedCategory === "All"
-    ? cars
-    : cars.filter(
-        (car) => car.category === selectedCategory
-      );
-
+    ? cars : cars.filter((car) => car.category === selectedCategory);
   return (   
     <main>
       <section className="hero">
@@ -27,16 +22,13 @@ function Home() {
           <p className="hero-small-text">  PREMIUM CAR RENTALS  </p>
           <h1> Find Your<br /> Perfect Ride</h1>
           <p>Rent your dream car and explore the road with comfort, freedom and style. </p>
-          <button className="explore-btn">
-            Explore Cars
-          </button>
+          <button className="explore-btn"> Explore Cars</button>
         </div>
            {/* RIGHT SIDE - CAR IMAGE */}
         <div className="hero-image">
           <img  src="/assets/Audi_logo.png" alt="Audi rental car" />
         </div>
       </section>
-
       {/* Search Bar */}
       <SearchBar onSearch={handleSearch}/>
       {searchData && (
@@ -54,29 +46,18 @@ function Home() {
     <h2>Popular Cars</h2>
     <p>Choose from our most popular rental cars.</p>
   </div>
-
     <div className="category-buttons">
     {categories.map((category) => (
-      <button
-        key={category}
-        className={
+      <button key={category} className={
           selectedCategory === category
-            ? "category-btn active"
-            : "category-btn"
-        }
-        onClick={() => setSelectedCategory(category)}
-      >
-        {category}
-      </button>
+            ? "category-btn active" : "category-btn"}
+        onClick={() => setSelectedCategory(category)}>
+        {category} </button>
     ))}
-
   </div>
   <div className="car-container">
     {filteredCars.map((car) => (
-      <CarCard
-        key={car.id}
-        car={car}
-      />
+      <CarCard key={car.id} car={car}/>
     ))}
   </div>
 </section>

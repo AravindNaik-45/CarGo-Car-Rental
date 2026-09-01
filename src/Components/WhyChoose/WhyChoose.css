@@ -1,11 +1,11 @@
 .why-choose {
   margin: 0;
-  padding: 20px 60px 30px;
+  padding: 20px 60px 20px;
   background: #f5f6f8;
 }
 .section-heading {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .section-heading p {
   font-size: 13px;
@@ -25,13 +25,13 @@
   margin: auto;
 }
 .benefit-card {
-  padding: 30px;
+  padding: 25px;
   background: white;
   border-radius: 15px;
   text-align: center;
 }
 .benefit-icon {
-  font-size: 35px;
+  font-size: 30px;
   margin-bottom: 20px;
 }
 .benefit-card h3 {
