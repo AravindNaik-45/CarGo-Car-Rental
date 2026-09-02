@@ -1,0 +1,190 @@
+/* ============================= */
+/* Confirmation Page */
+/* ============================= */
+.confirmation-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 25px;
+  background: #f5f6f7;
+}
+/* ============================= */
+/* Confirmation Card */
+/* ============================= */
+.confirmation-card {
+  width: 100%;
+  max-width: 580px;
+  padding: 45px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+/* ============================= */
+/* Success Icon */
+/* ============================= */
+.confirmation-success-icon {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #41b905;
+  color: rgb(255, 255, 255);
+  font-size: 38px;
+  font-weight: bold;
+}
+/* ============================= */
+/* Heading */
+/* ============================= */
+.confirmation-card h1 {
+  margin: 0;
+  font-size: 40px;
+}
+.confirmation-message {
+  margin-top: 8px;
+  color: #666;
+  font-size: 16px;
+}
+/* ============================= */
+/* Booking ID */
+/* ============================= */
+.confirmation-id-box {
+  margin-top: 25px;
+  padding: 15px;
+  background: #f5f6f7;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.confirmation-id-box span {
+  color: #666;
+}
+.confirmation-id-box strong {
+  font-size: 17px;
+}
+/* ============================= */
+/* Car Information */
+/* ============================= */
+.confirmation-car-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+  padding: 20px;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  text-align: left;
+}
+.confirmation-car-info img {
+  width: 150px;
+  height: 100px;
+  object-fit: contain;
+  background: #f3f4f5;
+  border-radius: 10px;
+}
+.confirmation-car-info h2 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+.confirmation-car-info p {
+  margin: 5px 0;
+  color: #666;
+}
+/* ============================= */
+/* Booking Details */
+/* ============================= */
+.confirmation-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 25px;
+  text-align: left;
+}
+.confirmation-detail-item {
+  padding: 15px;
+  background: #f5f6f7;
+  border-radius: 10px;
+}
+.confirmation-detail-item span {
+  display: block;
+  margin-bottom: 6px;
+  color: #666;
+  font-size: 13px;
+}
+.confirmation-detail-item strong {
+  font-size: 15px;
+}
+/* ============================= */
+/* Total */
+/* ============================= */
+.confirmation-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+.confirmation-total span {
+  font-size: 20px;
+  font-weight: 600;
+}
+.confirmation-total strong {
+  font-size: 30px;
+}
+/* ============================= */
+/* Home Button */
+/* ============================= */
+.confirmation-home-btn {
+  width: 100%;
+  margin-top: 30px;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #111;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.confirmation-home-btn:hover {
+  background: #333;
+}
+/* ============================= */
+/* Empty State */
+/* ============================= */
+.confirmation-empty {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+/* ============================= */
+/* Responsive */
+/* ============================= */
+@media (max-width: 600px) {
+  .confirmation-card {
+    padding: 30px 20px;
+  }
+  .confirmation-card h1 {
+    font-size: 30px;
+  }
+  .confirmation-car-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  .confirmation-details {
+    grid-template-columns: 1fr;
+  }
+  .confirmation-id-box {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

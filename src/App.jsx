@@ -4,6 +4,8 @@ import Footer from './Components/Footer/Footer'
 import Home from './Pages/Home/Home'
 import CarDetails from './Pages/CarDetails/CarDetails'
 import Booking from './Pages/Booking/Booking'
+import BookingConformation from './Pages/BookingConformation/BookingConformation'
+import MyBooking from './Pages/MyBookings/MyBooking'
 const App = () => {
   return (
     <BrowserRouter>
@@ -12,6 +14,8 @@ const App = () => {
       <Route path='/' element={<Home/>}/>
       <Route path='/cars/:id' element={<CarDetails/>}/>
       <Route path='/booking/:id' element={<Booking/>}/>
+      <Route path='/booking-confirmation' element={<BookingConformation/>}/>
+      <Route path='/my-bookings' element={<MyBooking/>}/>
     </Routes>
         <Footer/>
     </BrowserRouter>

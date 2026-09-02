@@ -1,9 +1,10 @@
 import "./Booking.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import cars from "../../Data/Cars";
 function Booking() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const selectedCar = cars.find((car) => car.id === Number(id));
   const [bookingData, setBookingData] = useState({
     name: "",
@@ -32,11 +33,30 @@ function Booking() {
       alert("Return date must be after pickup date.");
       return;
     }
-    console.log( "Booking Details:", bookingData);
-    console.log( "Rental Days:",rentalDays);
-    console.log( "Total Price:", totalPrice);
-    alert("Booking submitted successfully!");
+    const bookingId = "CG-" + Math.floor(100000 + Math.random() * 900000);
+    const bookingDetails = {
+    bookingId: bookingId,
+    car: selectedCar,
+    name: bookingData.name,
+    email: bookingData.email,
+    phone: bookingData.phone,
+    location: bookingData.location,
+    pickupDate: bookingData.pickupDate,
+    returnDate: bookingData.returnDate,
+    rentalDays: rentalDays,
+    totalPrice: totalPrice
   };
+  
+  const existingBookings =
+  JSON.parse(localStorage.getItem("cargoBookings")) || [];
+existingBookings.push(bookingDetails);
+localStorage.setItem("cargoBookings",
+  JSON.stringify(existingBookings));
+  navigate("/booking-confirmation",{
+      state: bookingDetails
+    }
+  );
+};
   if (!selectedCar) {
     return (
       <div className="booking-not-found">

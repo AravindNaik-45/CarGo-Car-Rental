@@ -14,8 +14,8 @@
 .nav-links {
     display: flex;
     justify-content: space-around;
-    width: 30%;
-    gap: 30px;
+    width: 40%;
+    gap: 40px;
 }
 .nav-links a {
     text-decoration: none;
