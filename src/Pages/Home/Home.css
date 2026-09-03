@@ -118,14 +118,107 @@
   border-color: #111;
 }
 
-@media (max-width: 900px) {
-  .car-container {
+/* Home Car Search & Filter */
+.home-car-filter {
+  max-width: 1200px;
+  margin: 30px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+/* Search Input */
+.home-search-wrapper {
+  flex: 1;
+  max-width: 450px;
+}
+.home-car-search {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  background: white;
+  font-size: 15px;
+}
+.home-car-search:focus {
+  border-color: #111;
+}
+/* Category Buttons */
+.home-category-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.home-category-btn {
+  padding: 11px 18px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.home-category-btn:hover {
+  border-color: #111;
+  color: #111;
+}
+.home-category-active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+/* No Cars Found */
+.home-no-cars {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  padding: 60px 20px;
+  border-radius: 12px;
+  background: #f3f3f3;
+  text-align: center;
+}
+.home-no-cars h3 {
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+.home-no-cars p {
+  margin: 0;
+  color: #666;
+}
+/* Responsive */
+@media (max-width: 800px) {
+  .home-car-filter {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .home-search-wrapper {
+    max-width: none;
+  }
+  .home-category-buttons {
+    justify-content: center;
+  }
+}
+@media (max-width: 500px) {
+  .home-category-buttons {
+    display: grid;
     grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+      repeat(2, 1fr);
+  }
+  .home-category-btn {
+    width: 100%;
   }
 }
-@media (max-width: 600px) {
-  .car-container {
-    grid-template-columns: 1fr;
+  @media (max-width: 900px) {
+    .car-container {
+      grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+    }
   }
-}
+  @media (max-width: 600px) {
+    .car-container {
+      grid-template-columns: 1fr;
+    }
+  }

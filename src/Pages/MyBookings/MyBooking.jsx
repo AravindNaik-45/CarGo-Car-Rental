@@ -3,6 +3,20 @@
     
     const MyBooking = () => {
         const navigate = useNavigate();
+        const handleCancelBooking = (bookingId) => {
+  const confirmCancel = window.confirm("Are you sure you want to cancel this booking?"
+  );
+  if (!confirmCancel) {
+    return;
+  }
+  const updatedBookings =
+    savedBookings.filter(
+      (booking) =>booking.bookingId !== bookingId);
+  localStorage.setItem("cargoBookings",
+    JSON.stringify(updatedBookings)
+  );
+  window.location.reload();
+};
         const savedBookings = JSON.parse(localStorage.getItem("cargoBookings")) || [];
   return (
     <main className="my-bookings-page">
@@ -64,9 +78,17 @@
                   </div>
                 </div>
                 <div className="my-booking-bottom">
-                  <span>Total Amount</span>
-                  <strong>₹{booking.totalPrice}</strong>
-                </div>
+            <div className="my-booking-total">
+              <span>Total Amount</span>
+              <strong>₹{booking.totalPrice}</strong>
+            </div>
+           <button
+               className="my-booking-cancel-btn"
+                onClick={() =>
+                   handleCancelBooking(
+                   booking.bookingId
+                 )}>Cancel Booking</button>
+               </div>
               </div>
             </div>
           ))
