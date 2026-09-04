@@ -127,6 +127,46 @@
   justify-content: space-between;
   gap: 20px;
 }
+.home-price-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 220px;
+}
+.home-price-filter label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+.home-price-filter input {
+  width: 100%;
+  cursor: pointer;
+}
+/* Home Car Sort */
+.home-sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.home-sort-wrapper label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+.home-car-sort {
+  padding: 11px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #333;
+  outline: none;
+  font-size: 12px;
+  cursor: pointer;
+}
+.home-car-sort:focus {
+  border-color: #111;
+}
 /* Search Input */
 .home-search-wrapper {
   flex: 1;
@@ -210,6 +250,14 @@
   .home-category-btn {
     width: 100%;
   }
+  .home-sort-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .home-car-sort {
+    width: 100%;
+  }
 }
   @media (max-width: 900px) {
     .car-container {
@@ -220,5 +268,11 @@
   @media (max-width: 600px) {
     .car-container {
       grid-template-columns: 1fr;
+    }
+    .home-price-filter {
+      width: 100%;
+    }
+    .home-price-filter input {
+      width: 100%;
     }
   }
