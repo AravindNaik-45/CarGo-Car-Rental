@@ -17,6 +17,7 @@
   height: 210px;
   overflow: hidden;
   background: #f1f1f1;
+  position: relative;
 }
 .car-image img {
   width: 100%;
@@ -89,6 +90,23 @@
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+}
+.car-card-favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  z-index: 10;
 }
 .car-bottom button:hover {
   background: #333333;

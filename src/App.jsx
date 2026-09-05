@@ -6,6 +6,7 @@ import CarDetails from './Pages/CarDetails/CarDetails'
 import Booking from './Pages/Booking/Booking'
 import BookingConformation from './Pages/BookingConformation/BookingConformation'
 import MyBooking from './Pages/MyBookings/MyBooking'
+import Favorites from './Pages/Favourite/Favorites'
 const App = () => {
   return (
     <BrowserRouter>
@@ -16,6 +17,7 @@ const App = () => {
       <Route path='/booking/:id' element={<Booking/>}/>
       <Route path='/booking-confirmation' element={<BookingConformation/>}/>
       <Route path='/my-bookings' element={<MyBooking/>}/>
+      <Route path='/favorites' element={<Favorites/>}></Route>
     </Routes>
         <Footer/>
     </BrowserRouter>

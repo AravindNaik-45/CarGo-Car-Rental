@@ -1,0 +1,96 @@
+.favorites-page {
+  padding: 60px;
+  min-height: 70vh;
+}
+.favorites-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+.favorites-small-title {
+  font-size: 14px;
+  letter-spacing: 3px;
+  font-weight: bold;
+}
+.favorites-header h1 {
+  font-size: 42px;
+  margin: 10px 0;
+}
+.favorites-header p {
+  color: #666;
+}
+.favorites-car-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+}
+.favorites-car-card {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  overflow: hidden;
+  background: white;
+}
+.favorites-car-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+.favorites-car-content {
+  padding: 20px;
+}
+.favorites-car-content h2 {
+  margin: 0 0 8px;
+}
+.favorites-car-category {
+  color: #666;
+}
+.favorites-car-price {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 18px 0;
+}
+.favorites-details-btn {
+  display: inline-block;
+  padding: 11px 18px;
+  background: #111;
+  color: white;
+  text-decoration: none;
+  border-radius: 7px;
+}
+.favorites-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+.favorites-empty h2 {
+  font-size: 30px;
+}
+.favorites-empty p {
+  color: #666;
+  margin-bottom: 25px;
+}
+.favorites-browse-btn {
+  display: inline-block;
+  padding: 12px 22px;
+  background: #111;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+}
+@media (max-width: 900px) {
+  .favorites-car-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .favorites-page {
+    padding: 30px 20px;
+  }
+  .favorites-car-grid {
+    grid-template-columns: 1fr;
+  }
+  .favorites-header h1 {
+    font-size: 32px;
+  }
+}
