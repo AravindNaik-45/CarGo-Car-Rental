@@ -23,12 +23,45 @@ function Booking() {
     const pickup = new Date(bookingData.pickupDate);
     const returnDate = new Date(bookingData.returnDate);
     const difference = returnDate - pickup;
-    rentalDays = difference / (1000 * 60 * 60 * 24);
+    rentalDays = Math.ceil(difference / (1000 * 60 * 60 * 24));
   }
   // Calculate total price
   const totalPrice = rentalDays > 0 ? rentalDays * selectedCar.price: 0;
+  const validateBookingForm = () => {
+  if(bookingData.name.trim().length < 3) {
+    alert("Please enter a valid name.");
+    return false;
+  }
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!emailPattern.test(bookingData.email)) {
+    alert("Please enter a valid email address.");
+    return false;
+  }
+  const phonePattern = /^[6-9]\d{9}$/;
+  if(!phonePattern.test(bookingData.phone)) {
+    alert("Please enter a valid 10-digit Indian phone number.");
+    return false;
+  }
+  if(bookingData.location.trim().length < 3) {
+    alert("Please enter a valid pickup location.");
+    return false;
+  }
+  if(!bookingData.pickupDate || !bookingData.returnDate) {
+    alert("Please select pickup and return dates.");
+    return false;
+  }
+  if(rentalDays <= 0) {
+    alert("Return date must be after pickup date.");
+    return false;
+  }
+  return true;
+};
   const handleBookingSubmit = (event) => {
     event.preventDefault();
+    const isValid = validateBookingForm();
+    if (!isValid) {
+      return;
+    }
     if (rentalDays <= 0) {
       alert("Return date must be after pickup date.");
       return;
@@ -46,11 +79,10 @@ function Booking() {
     rentalDays: rentalDays,
     totalPrice: totalPrice
   };
-  
   const existingBookings =
   JSON.parse(localStorage.getItem("cargoBookings")) || [];
-existingBookings.push(bookingDetails);
-localStorage.setItem("cargoBookings",
+  existingBookings.push(bookingDetails);
+  localStorage.setItem("cargoBookings",
   JSON.stringify(existingBookings));
   navigate("/booking-confirmation",{
       state: bookingDetails
@@ -120,11 +152,11 @@ localStorage.setItem("cargoBookings",
             <div className="booking-date-row">
               <div className="booking-form-group">
                 <label> Pickup Date </label>
-                <input type="date" name="pickupDate" value={bookingData.pickupDate} onChange={handleBookingChange} required />
+                <input type="date" name="pickupDate" value={bookingData.pickupDate} onChange={handleBookingChange} min={new Date().toISOString().split("T")[0]} required />
               </div>
               <div className="booking-form-group">
                 <label>Return Date</label>
-                <input type="date" name="returnDate" value={bookingData.returnDate} onChange={handleBookingChange} required />
+                <input type="date" name="returnDate" value={bookingData.returnDate} onChange={handleBookingChange}  min={ bookingData.pickupDate ? bookingData.pickupDate : new Date().toISOString().split("T")[0]} required />
               </div>
             </div>
             {/* Booking Summary */}
