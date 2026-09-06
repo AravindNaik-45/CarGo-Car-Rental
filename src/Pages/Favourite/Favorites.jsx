@@ -14,7 +14,6 @@ const Favorites = () => {
     )
         setFavoriteCars(favoriteCarList)
     },[])
-
   return (
     <main className="favorites-page">
       <div className="favorites-header">

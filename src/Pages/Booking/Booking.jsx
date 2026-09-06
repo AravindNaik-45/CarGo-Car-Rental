@@ -27,6 +27,7 @@ function Booking() {
   }
   // Calculate total price
   const totalPrice = rentalDays > 0 ? rentalDays * selectedCar.price: 0;
+  const formattedTotalPrice = totalPrice.toLocaleString("en-IN");
   const validateBookingForm = () => {
   if(bookingData.name.trim().length < 3) {
     alert("Please enter a valid name.");
@@ -164,15 +165,19 @@ function Booking() {
               <h3>Booking Summary</h3>
               <div className="booking-summary-row">
                 <span> Price per day</span>
-                <strong> ₹{selectedCar.price} </strong>
+                <strong> ₹{selectedCar.price.toLocaleString("en-IN")} </strong>
               </div>
               <div className="booking-summary-row">
                 <span> Rental Days </span>
                 <strong>{rentalDays > 0 ? rentalDays : 0}</strong>
               </div>
+              <div className="booking-summary-row">
+                <span>Subtotal</span>
+                <strong> ₹{formattedTotalPrice} </strong>
+              </div>
               <div className="booking-summary-total">
                 <span>Total Price</span>
-                <strong>₹{totalPrice}</strong>
+                <strong>₹{formattedTotalPrice}</strong>
               </div>
             </div>
             {/* Submit */}

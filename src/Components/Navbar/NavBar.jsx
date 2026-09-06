@@ -8,12 +8,13 @@ const NavBar = () => {
     </div>
     <div className='nav-links'>
         <Link to="/">Home</Link>
-        <a href="#">Card</a>
-        <a href="#">Offers</a>
-        <a href="#">About</a>
+        <Link to="/cars">Cars</Link>
+        <Link to="/offers">Offers</Link>
+        <Link to="about">About</Link>
         <Link to="/my-bookings">My Bookings</Link>
+        <Link to="/favorites" className="navbar-wishlist-link"> ❤️ Wishlist</Link>
     </div>
-    <button className='login-btn'>Login</button>
+    <Link to="/login" className='login-btn'>Login</Link>
   </nav>
   </>
 }

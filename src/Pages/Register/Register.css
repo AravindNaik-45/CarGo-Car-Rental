@@ -1,0 +1,148 @@
+.register-page {
+  min-height: calc(100vh - 80px);
+  background: #f5f6f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+}
+.register-container {
+  width: 100%;
+  max-width: 560px;
+  background: #ffffff;
+  padding: 30px 50px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  animation: registerContainerShow 0.6s ease;
+}
+.register-heading {
+  text-align: center;
+  margin-bottom: 15px;
+}
+.register-small-title {
+  margin-bottom: 5px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: #666666;
+}
+.register-heading h1 {
+  margin: 0 0 6px;
+  font-size: 40px;
+  color: #111111;
+}
+.register-heading p:last-child {
+  margin: 6px;
+  color: #666666;
+  font-size: 16px;
+}
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.register-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.register-form-group label {
+  font-weight: 700;
+  color: #111111;
+}
+.register-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.register-form-group input:focus {
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+.register-submit-btn {
+  margin-top: 8px;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.register-submit-btn:hover {
+  background: #333333;
+  transform: translateY(-2px);
+}
+.register-submit-btn:active {
+  transform: scale(0.98);
+}
+.register-login-text {
+  margin-top: 28px;
+  text-align: center;
+  color: #666666;
+}
+.register-login-text p {
+  margin: 0;
+}
+.register-login-btn {
+  margin-left: 8px;
+  border: none;
+  background: transparent;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.register-login-btn:hover {
+  text-decoration: underline;
+}
+@keyframes registerContainerShow {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 600px) {
+  .register-page {
+    padding: 35px 15px;
+  }
+  .register-container {
+    padding: 40px 25px;
+  }
+  .register-heading h1 {
+    font-size: 32px;
+  }
+}
+/* SHOW PASSWORD ICON */
+.register-password-wrapper {
+  position: relative;
+  width: 100%;
+}
+.register-password-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 50px;
+}
+.register-password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  padding: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}

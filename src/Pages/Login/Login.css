@@ -1,0 +1,252 @@
+/* LOGIN PAGE */
+.login-page {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  background: #f5f6f7;
+  /* Page animation */
+  animation: loginPageFade 0.8s ease-out;
+}
+/* LOGIN CONTAINER */
+.login-container {
+  width: 100%;
+  max-width: 450px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  /* Smooth entrance */
+  animation: loginCardEnter 0.8s ease-out;
+}
+/* HEADING */
+.login-heading {
+  text-align: center;
+  margin-bottom: 30px;
+  animation: loginHeadingEnter 0.9s ease-out;
+}
+.login-small-title {
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #555555;
+}
+.login-heading h1 {
+  margin: 0 0 10px;
+  font-size: 32px;
+  color: #111111;
+}
+.login-heading p:last-child {
+  margin: 0;
+  color: #777777;
+  font-size: 14px;
+}
+/*  FORM */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+/* Form fields animation */
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: loginFieldEnter 0.7s ease-out backwards;
+}
+/* First field */
+.login-form-group:nth-child(1) {
+  animation-delay: 0.2s;
+}
+/* Second field */
+.login-form-group:nth-child(2) {
+  animation-delay: 0.35s;
+}
+.login-form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222222;
+}
+/* INPUTS */
+.login-form-group input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 13px 14px;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+/* Input focus animation */
+.login-form-group input:focus {
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.08);
+  transform: translateY(-2px);
+}
+/*  LOGIN BUTTON */
+.login-submit-btn {
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 5px;
+  animation: loginButtonEnter 0.7s ease-out 0.5s backwards;
+  transition:
+    background 0.3s ease,
+    transform 0.25s ease,
+    box-shadow 0.3s ease;
+}
+/* SHOW PASSWORD ICON */
+.login-password-wrapper {
+  position: relative;
+  width: 100%;
+}
+.login-password-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 50px;
+}
+.login-password-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  padding: 5px;
+  font-size: 20px;
+  cursor: pointer;
+  line-height: 1;
+}
+/* Button hover */
+.login-submit-btn:hover {
+  background: #333333;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+/* Button click */
+.login-submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+/* BOTTOM TEXT*/
+.login-extra-text {
+  text-align: center;
+  margin-top: 25px;
+  font-size: 14px;
+  color: #777777;
+  animation: loginBottomEnter 0.7s ease-out 0.6s backwards;
+}
+.login-extra-text span {
+  margin-left: 5px;
+  color: #111111;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    color 0.3s ease,
+    letter-spacing 0.3s ease;
+}
+.login-extra-text span:hover {
+  color: #e63946;
+  letter-spacing: 0.3px;
+}
+/* CREATE ACCOUNT BTN */
+.login-create-account-btn {
+  margin-left: 8px;
+  border: none;
+  background: transparent;
+  color: #111111;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.login-create-account-btn:hover {
+  text-decoration: underline;
+}
+/* ANIMATIONS */
+/* Whole page */
+@keyframes loginPageFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+/* Login card */
+@keyframes loginCardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(35px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* Heading */
+@keyframes loginHeadingEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Input fields */
+@keyframes loginFieldEnter {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+/* Login button */
+@keyframes loginButtonEnter {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* Bottom text */
+@keyframes loginBottomEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* MOBILE */
+@media (max-width: 600px) {
+  .login-page {
+    padding: 40px 15px;
+  }
+  .login-container {
+    padding: 30px 22px;
+  }
+  .login-heading h1 {
+    font-size: 28px;
+  }
+}
