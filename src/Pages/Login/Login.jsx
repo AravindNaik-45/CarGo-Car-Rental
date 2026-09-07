@@ -39,6 +39,7 @@ const Login = () => {
         return;
       }
       // Login successful
+      localStorage.setItem("cargoLoggedIn", "true");
       alert("Login successful!");
       navigate("/");
     };

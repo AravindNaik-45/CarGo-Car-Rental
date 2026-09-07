@@ -9,6 +9,7 @@ import MyBooking from './Pages/MyBookings/MyBooking'
 import Favorites from './Pages/Favourite/Favorites'
 import Login from './Pages/Login/Login'
 import Register from './Pages/Register/Register'
+import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 const App = () => {
   return (
     <BrowserRouter>
@@ -17,10 +18,26 @@ const App = () => {
       <Route path='/login' element={<Login/>}/>
       <Route path='/' element={<Home/>}/>
       <Route path='/cars/:id' element={<CarDetails/>}/>
-      <Route path='/booking/:id' element={<Booking/>}/>
-      <Route path='/booking-confirmation' element={<BookingConformation/>}/>
-      <Route path='/my-bookings' element={<MyBooking/>}/>
-      <Route path='/favorites' element={<Favorites/>}/>
+      <Route path='/booking/:id' element={
+        <ProtectedRoute>
+        <Booking/>
+        </ProtectedRoute>
+        }/>
+      <Route path='/booking-confirmation' element={
+        <ProtectedRoute>
+          <BookingConformation/>
+        </ProtectedRoute>
+          }/>
+      <Route path='/my-bookings' element={
+        <ProtectedRoute>
+        <MyBooking/>
+        </ProtectedRoute>
+        }/>
+      <Route path='/favorites' element={
+        <ProtectedRoute>
+          <Favorites/>
+        </ProtectedRoute>
+        }/>
       <Route path='/register' element={<Register/>}/>
     </Routes>
         <Footer/>
