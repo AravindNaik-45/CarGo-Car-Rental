@@ -1,23 +1,29 @@
-    import "./MyBooking.css";
-    import { useNavigate } from "react-router-dom";
+import "./MyBooking.css";
+import { useNavigate } from "react-router-dom";
     
-    const MyBooking = () => {
-        const navigate = useNavigate();
-        const handleCancelBooking = (bookingId) => {
-  const confirmCancel = window.confirm("Are you sure you want to cancel this booking?"
-  );
+const MyBooking = () => {
+  const navigate = useNavigate();
+ const handleCancelBooking = (bookingId) => {
+  const confirmCancel = window.confirm(
+    "Are you sure you want to cancel this booking?");
   if (!confirmCancel) {
     return;
   }
-  const updatedBookings =
-    savedBookings.filter(
-      (booking) =>booking.bookingId !== bookingId);
-  localStorage.setItem("cargoBookings",
-    JSON.stringify(updatedBookings)
-  );
+  const updatedBookings = savedBookings.map((booking) => {
+    if (booking.bookingId === bookingId) {
+      return {
+        ...booking,
+        status: "Cancelled"
+      };
+    }
+    return booking;
+  });
+  localStorage.setItem(
+    "cargoBookings",
+    JSON.stringify(updatedBookings));
   window.location.reload();
 };
-        const savedBookings = JSON.parse(localStorage.getItem("cargoBookings")) || [];
+  const savedBookings = JSON.parse(localStorage.getItem("cargoBookings")) || [];
   return (
     <main className="my-bookings-page">
       <section className="my-bookings-header">
@@ -53,7 +59,13 @@
                     <h2>{booking.car.name}</h2>
                     <p>{booking.car.category}</p>
                   </div>
-                  <span className="my-booking-status">Confirmed</span>
+                    <span className={
+                      booking.status === "Cancelled"
+                        ? "my-booking-status my-booking-status-cancelled"
+                        : "my-booking-status"
+                    }>
+                      {booking.status || "Confirmed"}
+                    </span>
                 </div>
                 <div className="my-booking-id">
                   Booking ID:
@@ -82,12 +94,14 @@
               <span>Total Amount</span>
               <strong>₹{booking.totalPrice}</strong>
             </div>
-           <button
-               className="my-booking-cancel-btn"
-                onClick={() =>
-                   handleCancelBooking(
-                   booking.bookingId
-                 )}>Cancel Booking</button>
+           {booking.status !== "Cancelled" && (
+            <button className="my-booking-cancel-btn"
+              onClick={() =>
+                handleCancelBooking(
+                  booking.bookingId
+                )
+              }>Cancel Booking
+            </button>)}
                </div>
               </div>
             </div>

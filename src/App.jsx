@@ -10,6 +10,7 @@ import Favorites from './Pages/Favourite/Favorites'
 import Login from './Pages/Login/Login'
 import Register from './Pages/Register/Register'
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
+import Profile from './Pages/Profile/Profile'
 const App = () => {
   return (
     <BrowserRouter>
@@ -39,7 +40,12 @@ const App = () => {
         </ProtectedRoute>
         }/>
       <Route path='/register' element={<Register/>}/>
-    </Routes>
+      {/* NEW PROFILE ROUTE */}
+      <Route path="/profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>}/>
+      </Routes>
         <Footer/>
     </BrowserRouter>
   )

@@ -37,6 +37,11 @@ const NavBar = () => {
           className="cargo-navbar-wishlist"
           onClick={closeMobileMenu}
         > ❤️ Wishlist </Link>
+        <Link
+          to="/profile"
+          onClick={closeMobileMenu}>
+          Profile
+        </Link>
         {/* MOBILE LOGIN / LOGOUT */}
         <div className="cargo-navbar-mobile-action">
           {isLoggedIn ? (
