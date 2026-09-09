@@ -247,6 +247,35 @@
   color: #d32f2f;
   border: 1px solid #ffb3b3;
 }
+.my-booking-filter-section {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.my-booking-filter-btn {
+  border: 1px solid #dddddd;
+  background-color: #ffffff;
+  color: #333333;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.my-booking-filter-btn:hover {
+  background-color: #f5f5f5;
+}
+.my-booking-filter-active {
+  background-color: #111111;
+  color: #ffffff;
+  border-color: #111111;
+}
 /* Mobile */
 @media (max-width: 600px) {
   .my-booking-bottom {
@@ -256,5 +285,13 @@
   }
   .my-booking-cancel-btn {
     width: 100%;
+  }
+    .my-booking-filter-section {
+    width: 90%;
+    gap: 8px;
+  }
+  .my-booking-filter-btn {
+    padding: 9px 14px;
+    font-size: 14px;
   }
 }
