@@ -227,19 +227,27 @@ const MyBooking = () => {
                     </strong>
                   </div>
                   {/* CANCEL BUTTON */}
+                  <div className="my-booking-action-buttons">
+                  <button
+                    type="button"
+                    className="my-booking-view-details-btn"
+                    onClick={() =>
+                      navigate(`/my-booking-details/${booking.bookingId}`)
+                    }
+                  >
+                    View Details
+                  </button>
                   {booking.status !== "Cancelled" && (
                     <button
                       type="button"
                       className="my-booking-cancel-btn"
                       onClick={() =>
-                        handleCancelBooking(
-                          booking.bookingId
-                        )
-                      }
-                    >
+                        handleCancelBooking(booking.bookingId)
+                      }>
                       Cancel Booking
                     </button>
-                  )}
+                  )} 
+                 </div>
                 </div>
               </div>
             </div>

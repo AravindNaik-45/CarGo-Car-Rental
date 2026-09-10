@@ -11,6 +11,7 @@ import Login from './Pages/Login/Login'
 import Register from './Pages/Register/Register'
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import Profile from './Pages/Profile/Profile'
+import BookingDetails from './Pages/BookingDetails/BookingDetails'
 const App = () => {
   return (
     <BrowserRouter>
@@ -45,6 +46,11 @@ const App = () => {
           <ProtectedRoute>
             <Profile />
           </ProtectedRoute>}/>
+      <Route path="/my-booking-details/:bookingId" element={
+         <ProtectedRoute>
+           <BookingDetails />
+         </ProtectedRoute>
+       }/>
       </Routes>
         <Footer/>
     </BrowserRouter>
