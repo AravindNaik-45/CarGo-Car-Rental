@@ -126,6 +126,19 @@ const BookingDetails = () => {
           <strong>₹{booking.totalPrice}</strong>
         </div>
         <div className="booking-details-action-buttons">
+          {booking.paymentStatus !== "Paid" &&
+          booking.status !== "Cancelled" && (
+            <button
+              type="button"
+              className="booking-details-payment-btn"
+              onClick={() =>
+                navigate(
+                  `/payment/${booking.bookingId}`
+                )
+              }
+            > 💳 Make Payment
+            </button>
+          )}
         <button
           type="button"
           className="booking-details-print-btn"

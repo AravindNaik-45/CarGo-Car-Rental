@@ -183,6 +183,19 @@
 .booking-details-print-btn:hover {
   background-color: #333333;
 }
+.booking-details-payment-btn {
+  border: none;
+  padding: 13px 22px;
+  border-radius: 8px;
+  background-color: #1b7f3a;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.booking-details-payment-btn:hover {
+  background-color: #14632d;
+}
 @media (max-width: 700px) {
   .booking-details-page {
     padding: 40px 20px;

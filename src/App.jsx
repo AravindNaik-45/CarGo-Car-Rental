@@ -12,6 +12,7 @@ import Register from './Pages/Register/Register'
 import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import Profile from './Pages/Profile/Profile'
 import BookingDetails from './Pages/BookingDetails/BookingDetails'
+import Payment from './Pages/Payment/Payment'
 const App = () => {
   return (
     <BrowserRouter>
@@ -49,6 +50,11 @@ const App = () => {
       <Route path="/my-booking-details/:bookingId" element={
          <ProtectedRoute>
            <BookingDetails />
+         </ProtectedRoute>
+       }/>
+       <Route path="/payment/:bookingId" element={
+         <ProtectedRoute>
+           <Payment />
          </ProtectedRoute>
        }/>
       </Routes>
