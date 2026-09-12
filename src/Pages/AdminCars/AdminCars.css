@@ -1,0 +1,209 @@
+.admin-cars-page {
+  min-height: 100vh;
+  padding: 50px 5%;
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+}
+.admin-cars-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.admin-cars-label {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #666666;
+}
+.admin-cars-header h1 {
+  margin: 0;
+  font-size: 38px;
+  color: #111111;
+}
+.admin-cars-header p:last-child {
+  margin-top: 10px;
+  color: #666666;
+}
+/* ADD CAR */
+.admin-cars-add-section {
+  max-width: 1100px;
+  margin: 0 auto 45px;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+}
+.admin-cars-add-section h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #111111;
+}
+.admin-cars-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+.admin-cars-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.admin-cars-form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333333;
+}
+.admin-cars-form-group input,
+.admin-cars-form-group select {
+  width: 100%;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  border: 1px solid #dddddd;
+  border-radius: 7px;
+  font-size: 14px;
+  outline: none;
+}
+.admin-cars-form-group input:focus,
+.admin-cars-form-group select:focus {
+  border-color: #111111;
+}
+.admin-cars-add-btn {
+  grid-column: 1 / -1;
+  border: none;
+  padding: 13px 20px;
+  border-radius: 8px;
+  background-color: #111111;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-cars-add-btn:hover {
+  background-color: #333333;
+}
+/* CAR LIST */
+.admin-cars-list-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.admin-cars-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.admin-cars-list-header h2 {
+  margin: 0 0 5px;
+  color: #111111;
+}
+.admin-cars-list-header p {
+  margin: 0;
+  color: #666666;
+}
+.admin-cars-back-btn {
+  border: 1px solid #111111;
+  padding: 10px 16px;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-cars-back-btn:hover {
+  background-color: #111111;
+  color: #ffffff;
+}
+/* CAR GRID */
+.admin-cars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+.admin-cars-card {
+  overflow: hidden;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+}
+.admin-cars-image-wrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+.admin-cars-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.admin-cars-card-content {
+  padding: 20px;
+}
+.admin-cars-category {
+  margin: 0 0 6px;
+  color: #777777;
+  font-size: 13px;
+  font-weight: 600;
+}
+.admin-cars-card-content h3 {
+  margin: 0 0 8px;
+  color: #111111;
+  font-size: 21px;
+}
+.admin-cars-details {
+  margin: 0 0 20px;
+  color: #666666;
+  font-size: 13px;
+}
+.admin-cars-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.admin-cars-card-bottom strong {
+  color: #111111;
+  font-size: 17px;
+}
+.admin-cars-delete-btn {
+  border: 1px solid #d32f2f;
+  padding: 8px 13px;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #d32f2f;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-cars-delete-btn:hover {
+  background-color: #d32f2f;
+  color: #ffffff;
+}
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .admin-cars-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 700px) {
+  .admin-cars-page {
+    padding: 35px 20px;
+  }
+  .admin-cars-header h1 {
+    font-size: 30px;
+  }
+  .admin-cars-form {
+    grid-template-columns: 1fr;
+  }
+  .admin-cars-add-section {
+    padding: 20px;
+  }
+  .admin-cars-list-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+  .admin-cars-grid {
+    grid-template-columns: 1fr;
+  }
+}

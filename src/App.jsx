@@ -13,6 +13,8 @@ import ProtectedRoute from './Components/ProtectedRoute/ProtectedRoute'
 import Profile from './Pages/Profile/Profile'
 import BookingDetails from './Pages/BookingDetails/BookingDetails'
 import Payment from './Pages/Payment/Payment'
+import AdminDashboard from './Pages/AdminDashboard/AdminDashboard'
+import AdminCars from './Pages/AdminCars/AdminCars'
 const App = () => {
   return (
     <BrowserRouter>
@@ -57,6 +59,16 @@ const App = () => {
            <Payment />
          </ProtectedRoute>
        }/>
+       <Route path="/admin" element={
+        <ProtectedRoute>
+          <AdminDashboard />
+        </ProtectedRoute>
+      } />
+      <Route path="/admin/cars" element={
+        <ProtectedRoute>
+          <AdminCars />
+        </ProtectedRoute>
+      } />
       </Routes>
         <Footer/>
     </BrowserRouter>
