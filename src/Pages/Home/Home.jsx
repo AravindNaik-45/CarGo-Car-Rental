@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./Home.css";
 import SearchBar from "../../Components/Searchbar/SearchBar";
 import WhyChoose from "../../Components/WhyChoose/WhyChoose";
-import cars from "../../Data/Cars";
+import { getCars } from "../../Utils/carStorage";
 import CarCard from "../../Components/CarCard/CarCard";
 
 function Home() {
@@ -11,7 +11,7 @@ function Home() {
   const [selectedCategory,setSelectedCategory] = useState("All");
   const [sortOption, setSortOption] = useState("default");
   const [maxPrice, setMaxPrice] = useState(10000);
-    const filteredCars = cars
+    const filteredCars = getCars()
   .filter((car) => {
     const matchesSearch =
       car.name.toLowerCase().includes(searchTerm.toLowerCase());

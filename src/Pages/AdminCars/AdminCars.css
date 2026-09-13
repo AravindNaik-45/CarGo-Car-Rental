@@ -179,6 +179,47 @@
   background-color: #d32f2f;
   color: #ffffff;
 }
+.admin-cars-edit-btn {
+  border: 1px solid #111111;
+  padding: 10px 16px;
+  border-radius: 7px;
+  background-color: #ffffff;
+  color: #111111;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-cars-edit-btn:hover {
+  background-color: #111111;
+  color: #ffffff;
+}
+.admin-cars-save-btn {
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background-color: #111111;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-cars-save-btn:hover {
+  background-color: #333333;
+}
+.admin-cars-cancel-edit-btn {
+  border: 1px solid #cccccc;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #333333;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.admin-cars-cancel-edit-btn:hover {
+  background-color: #eeeeee;
+}
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .admin-cars-grid {

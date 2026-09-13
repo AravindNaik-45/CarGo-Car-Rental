@@ -5,6 +5,20 @@ import "./AdminCars.css";
 
 const AdminCars = () => {
     const navigate = useNavigate();
+    const [editingCarId, setEditingCarId] = useState(null);
+    const handleEditCar = (car) => {
+      setEditingCarId(car.id);
+      setCarData({
+        name: car.name,
+        category: car.category,
+        price: car.price,
+        image: car.image,
+        seats: car.seats,
+        transmission: car.transmission,
+        fuel: car.fuel,
+        rating: car.rating
+      });
+    };
     const [adminCars, setAdminCars] = useState(() => {
       const savedCars =
         JSON.parse(localStorage.getItem("cargoCars")) || null;
@@ -27,50 +41,87 @@ const AdminCars = () => {
         [name]: value
       });
     };
-    const handleAddCar = (event) => {
-      event.preventDefault();
-      if (
-        !carData.name.trim() ||
-        !carData.price ||
-        !carData.image.trim()
-      ) {
-        alert("Please fill all required fields.");
-        return;
-      }
-      const seats = Number(carData.seats)
-      if(seats < 5 ||seats > 12){
-        alert("Seats must be between 5 and 12");
-        return;
-      }
-      const newCar = {
-        id: Date.now(),
-        name: carData.name.trim(),
-        category: carData.category,
-        price: Number(carData.price),
-        image: carData.image.trim(),
-        seats: seats,
-        transmission: carData.transmission,
-        fuel: carData.fuel,
-        rating: Number(carData.rating)
+    const handleSaveCar = (event) => {
+        event.preventDefault();
+        const name = carData.name.trim();
+        const price = Number(carData.price);
+        const seats = Number(carData.seats);
+      
+        if (name.length < 2) {
+          alert("Please enter a valid car name.");
+          return;
+        }
+        if (price <= 0) {
+          alert("Please enter a valid price.");
+          return;
+        }
+        if (!carData.image.trim()) {
+          alert("Please enter a car image path.");
+          return;
+        }
+        if (seats < 1 || seats > 10) {
+          alert("Seats must be between 5 and 12.");
+          return;
+        }
+        // EDIT EXISTING CAR
+        if (editingCarId !== null) {
+          const updatedCars = adminCars.map((car) => {
+            if (car.id === editingCarId) {
+              return {
+                ...car,
+                name: name,
+                category: carData.category,
+                price: price,
+                image: carData.image,
+                seats: seats,
+                transmission: carData.transmission,
+                fuel: carData.fuel,
+                rating: Number(carData.rating)
+              };
+            }
+            return car;
+          });
+          setAdminCars(updatedCars);
+          localStorage.setItem(
+            "cargoCars",
+            JSON.stringify(updatedCars)
+          );
+          alert("Car updated successfully!");
+          setEditingCarId(null);
+        }
+        // ADD NEW CAR
+        else {
+          const newCar = {
+            id: Date.now(),
+            name: name,
+            category: carData.category,
+            price: price,
+            image: carData.image,
+            seats: seats,
+            transmission: carData.transmission,
+            fuel: carData.fuel,
+            rating: Number(carData.rating)
+          };
+          const updatedCars = [...adminCars, newCar];
+          setAdminCars(updatedCars);
+          localStorage.setItem(
+            "cargoCars",
+            JSON.stringify(updatedCars)
+          );
+          alert("Car added successfully!");
+        }
+        // RESET FORM
+        setCarData({
+          name: "",
+          category: "SUV",
+          price: "",
+          image: "",
+          seats: 5,
+          transmission: "Automatic",
+          fuel: "Petrol",
+          rating: 4.5
+        });
       };
-      const updatedCars = [...adminCars, newCar];
-      setAdminCars(updatedCars);
-      localStorage.setItem(
-        "cargoCars",
-        JSON.stringify(updatedCars)
-      );
-      setCarData({
-        name: "",
-        category: "SUV",
-        price: "",
-        image: "",
-        seats: "",
-        transmission: "Automatic",
-        fuel: "Petrol",
-        rating: "5"
-      });
-      alert("Car added successfully!");
-    };
     const handleDeleteCar = (carId) => {
       const confirmDelete = window.confirm(
         "Are you sure you want to delete this car?"
@@ -95,10 +146,12 @@ const AdminCars = () => {
         </p>
       </section>
       <section className="admin-cars-add-section">
-        <h2>Add New Car</h2>
+        <h2>
+          {editingCarId !== null ? "Edit Car" : "Add New Car"}
+        </h2>
         <form
           className="admin-cars-form"
-          onSubmit={handleAddCar}
+          onSubmit={handleSaveCar}
         >
           <div className="admin-cars-form-group">
             <label>Car Name</label>
@@ -193,10 +246,29 @@ const AdminCars = () => {
           </div>
           <button
             type="submit"
-            className="admin-cars-add-btn"
-          >
-            + Add Car
+            className="admin-cars-save-btn">
+            {editingCarId !== null ? "Update Car" : "Add Car"}
           </button>
+          {editingCarId !== null && (
+          <button
+            type="button"
+            className="admin-cars-cancel-edit-btn"
+            onClick={() => {
+              setEditingCarId(null);
+              setCarData({
+                name: "",
+                category: "SUV",
+                price: "",
+                image: "",
+                seats: 5,
+                transmission: "Automatic",
+                fuel: "Petrol",
+                rating: 4.5
+              });
+            }}>
+            Cancel
+          </button>
+        )}
         </form>
       </section>
       <section className="admin-cars-list-section">
@@ -242,6 +314,13 @@ const AdminCars = () => {
                   <strong>
                     ₹{car.price} / day
                   </strong>
+                  <button
+                    type="button"
+                    className="admin-cars-edit-btn"
+                    onClick={() => handleEditCar(car)}
+                  >
+                    Edit
+                  </button>
                   <button
                     type="button"
                     className="admin-cars-delete-btn"

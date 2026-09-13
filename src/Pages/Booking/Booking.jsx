@@ -1,11 +1,11 @@
 import "./Booking.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import cars from "../../Data/Cars";
+import { getCars } from "../../Utils/carStorage";
 function Booking() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const selectedCar = cars.find((car) => car.id === Number(id));
+  const selectedCar = getCars().find((car) => car.id === Number(id));
   const [bookingData, setBookingData] = useState({
     name: "",
     email: "",
