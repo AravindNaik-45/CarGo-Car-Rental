@@ -5,6 +5,7 @@ import "./CarDetails.css";
 
 function CarDetails() {
   const { id } = useParams();
+  const cars = getCars();
   const navigate = useNavigate();
   const car = getCars().find((car) => car.id === Number(id));
   if (!car) {

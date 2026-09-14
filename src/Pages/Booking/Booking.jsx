@@ -4,8 +4,9 @@ import { useState } from "react";
 import { getCars } from "../../Utils/carStorage";
 function Booking() {
   const { id } = useParams();
+  const cars = getCars();
   const navigate = useNavigate();
-  const selectedCar = getCars().find((car) => car.id === Number(id));
+  const selectedCar = cars.find((car) => car.id === Number(id));
   const [bookingData, setBookingData] = useState({
     name: "",
     email: "",
@@ -26,7 +27,10 @@ function Booking() {
     rentalDays = Math.ceil(difference / (1000 * 60 * 60 * 24));
   }
   // Calculate total price
-  const totalPrice = rentalDays > 0 ? rentalDays * selectedCar.price: 0;
+  const totalPrice =
+  rentalDays > 0 && selectedCar
+    ? rentalDays * selectedCar.price
+    : 0;
   const formattedTotalPrice = totalPrice.toLocaleString("en-IN");
   const validateBookingForm = () => {
   if(bookingData.name.trim().length < 3) {
@@ -67,6 +71,27 @@ function Booking() {
       alert("Return date must be after pickup date.");
       return;
     }
+    // Check existing bookings
+    const existingBookings =
+      JSON.parse(localStorage.getItem("cargoBookings")) || [];
+  
+    // Check whether the selected car is already booked
+    const hasBookingConflict = existingBookings.some((booking) => {
+      const sameCar =
+        Number(booking.car?.id) === Number(selectedCar.id);
+      const activeBooking =
+        booking.status !== "Cancelled";
+      const dateOverlap =
+        bookingData.pickupDate <= booking.returnDate &&
+        bookingData.returnDate >= booking.pickupDate;
+      return sameCar && activeBooking && dateOverlap;
+    });
+    // Stop booking if car is already booked
+    if (hasBookingConflict) {
+      alert("This car is already booked for the selected dates. Please choose different dates or another car.");
+      return;
+    }
+    // Create new booking
     const bookingId = "CG-" + Math.floor(100000 + Math.random() * 900000);
     const bookingDetails = {
     bookingId: bookingId,
@@ -78,10 +103,14 @@ function Booking() {
     pickupDate: bookingData.pickupDate,
     returnDate: bookingData.returnDate,
     rentalDays: rentalDays,
-    totalPrice: totalPrice
+    totalPrice: totalPrice,
+    // Booking status
+    status: "Confirmed",
+    // Payment status
+    paymentStatus: "Pending",
+    // Payment method
+    paymentMethod: ""
   };
-  const existingBookings =
-  JSON.parse(localStorage.getItem("cargoBookings")) || [];
   existingBookings.push(bookingDetails);
   localStorage.setItem("cargoBookings",
   JSON.stringify(existingBookings));

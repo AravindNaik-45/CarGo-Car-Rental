@@ -15,6 +15,7 @@ import BookingDetails from './Pages/BookingDetails/BookingDetails'
 import Payment from './Pages/Payment/Payment'
 import AdminDashboard from './Pages/AdminDashboard/AdminDashboard'
 import AdminCars from './Pages/AdminCars/AdminCars'
+import AdminBookings from './Pages/AdminBookings/AdminBookings'
 const App = () => {
   return (
     <BrowserRouter>
@@ -63,12 +64,17 @@ const App = () => {
         <ProtectedRoute>
           <AdminDashboard />
         </ProtectedRoute>
-      } />
+      }/>
       <Route path="/admin/cars" element={
         <ProtectedRoute>
           <AdminCars />
         </ProtectedRoute>
-      } />
+      }/>
+      <Route path="/admin/bookings" element={
+          <ProtectedRoute>
+            <AdminBookings />
+          </ProtectedRoute>
+        }/>
       </Routes>
         <Footer/>
     </BrowserRouter>

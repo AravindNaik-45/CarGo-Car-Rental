@@ -1,32 +1,36 @@
 import { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { getCars } from "../../Utils/getCars";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const cars = getCars();
     const bookings =
       JSON.parse(localStorage.getItem("cargoBookings")) || [];
+    const totalCars =cars.length;
     const totalBookings = bookings.length;
     const confirmedBookings = bookings.filter(
       (booking) => booking.status !== "Cancelled"
     ).length;
     const cancelledBookings = bookings.filter(
       (booking) => booking.status === "Cancelled"
-    ).length;
-    const totalRevenue = useMemo(() => {
-      return bookings
-        .filter((booking) => booking.status !== "Cancelled")
-        .reduce(
-          (total, booking) =>
-            total + Number(booking.totalPrice || 0), 0
-        );
-    }, [bookings]);
+    ).length; 
     const paidBookings = bookings.filter(
       (booking) => booking.paymentStatus === "Paid"
     ).length;
     const pendingPayments = bookings.filter(
-      (booking) => booking.paymentStatus !== "Paid"
+      (booking) =>
+         booking.paymentStatus !== "Paid" &&
+         booking.status !== "Cancelled"
     ).length;
+    const totalRevenue = useMemo(() => {
+      return bookings
+        .filter((booking) => booking.status !== "Cancelled")
+        .reduce((total, booking) =>
+            total + Number(booking.totalPrice || 0)
+        , 0);
+    }, [bookings]);
   return (
     <main className="admin-dashboard-page">
       {/* HEADER */}
@@ -55,9 +59,27 @@ const AdminDashboard = () => {
         >
           🚗 Manage Cars
         </button>
+        <button
+          type="button"
+          className="admin-dashboard-bookings-btn"
+          onClick={() => navigate("/admin/bookings")}
+        >
+          📋 Manage Bookings
+        </button>
       </section>
       {/* STATISTICS */}
       <section className="admin-dashboard-stat-grid">
+        {/* TOTAL CARS */}
+        <div className="admin-dashboard-stat-card">
+          <div className="admin-dashboard-stat-icon">
+            🚗
+          </div>
+          <div>
+            <span>Total Cars</span>
+            <strong>{totalCars}</strong>
+          </div>
+        </div>
+        {/*TOTAL BOOKINGS */}
         <div className="admin-dashboard-stat-card">
           <div className="admin-dashboard-stat-icon">
             📋
@@ -67,6 +89,7 @@ const AdminDashboard = () => {
             <strong>{totalBookings}</strong>
           </div>
         </div>
+        {/*CONFIRMED */}
         <div className="admin-dashboard-stat-card">
           <div className="admin-dashboard-stat-icon">
             ✅
@@ -76,6 +99,7 @@ const AdminDashboard = () => {
             <strong>{confirmedBookings}</strong>
           </div>
         </div>
+        {/*CANCELLED*/}
         <div className="admin-dashboard-stat-card">
           <div className="admin-dashboard-stat-icon">
             ❌
@@ -85,6 +109,7 @@ const AdminDashboard = () => {
             <strong>{cancelledBookings}</strong>
           </div>
         </div>
+        {/*TOTAL REVENUE */}
         <div className="admin-dashboard-stat-card">
           <div className="admin-dashboard-stat-icon">
             💰

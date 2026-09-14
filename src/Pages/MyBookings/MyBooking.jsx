@@ -4,39 +4,30 @@ import { useNavigate } from "react-router-dom";
 
 const MyBooking = () => {
   const [bookingFilter, setBookingFilter] = useState("All");
-
   const navigate = useNavigate();
-
   const savedBookings =
     JSON.parse(localStorage.getItem("cargoBookings")) || [];
-
   // Filter bookings for display
   const filteredBookings = savedBookings.filter((booking) => {
     if (bookingFilter === "All") {
       return true;
     }
-
     if (bookingFilter === "Confirmed") {
       return booking.status !== "Cancelled";
     }
-
     if (bookingFilter === "Cancelled") {
       return booking.status === "Cancelled";
     }
-
     return true;
   });
-
   // Cancel booking
   const handleCancelBooking = (bookingId) => {
     const confirmCancel = window.confirm(
       "Are you sure you want to cancel this booking?"
     );
-
     if (!confirmCancel) {
       return;
     }
-
     const updatedBookings = savedBookings.map((booking) => {
       if (booking.bookingId === bookingId) {
         return {
@@ -44,34 +35,24 @@ const MyBooking = () => {
           status: "Cancelled",
         };
       }
-
       return booking;
     });
-
     localStorage.setItem(
       "cargoBookings",
       JSON.stringify(updatedBookings)
     );
-
     window.location.reload();
   };
-
   return (
     <main className="my-bookings-page">
-
       {/* HEADER */}
       <section className="my-bookings-header">
         <p className="my-bookings-label">CARGO RENTALS</p>
-
         <h1>My Bookings</h1>
-
         <p>View all your car rental bookings.</p>
       </section>
-
-
       {/* FILTER BUTTONS */}
       <section className="my-booking-filter-section">
-
         {/* ALL */}
         <button
           type="button"
@@ -84,8 +65,6 @@ const MyBooking = () => {
         >
           All ({savedBookings.length})
         </button>
-
-
         {/* CONFIRMED */}
         <button
           type="button"
@@ -104,8 +83,6 @@ const MyBooking = () => {
           }
           )
         </button>
-
-
         {/* CANCELLED */}
         <button
           type="button"
@@ -131,8 +108,7 @@ const MyBooking = () => {
           /* EMPTY STATE */
           <div className="my-bookings-empty">
             <h2>
-              No {bookingFilter} Bookings
-            </h2>
+              No {bookingFilter} Bookings </h2>
             <p>
               There are no{" "}
               {bookingFilter.toLowerCase()} bookings
@@ -164,23 +140,30 @@ const MyBooking = () => {
                 {/* TOP */}
                 <div className="my-booking-top">
                   <div>
-                    <h2>
-                      {booking.car.name}
-                    </h2>
-                    <p>
-                      {booking.car.category}
-                    </p>
+                    <h2>{booking.car.name}</h2>
+                    <p>{booking.car.category}</p>
                   </div>
                   {/* STATUS */}
-                  <span
-                    className={
-                      booking.status === "Cancelled"
-                        ? "my-booking-status my-booking-status-cancelled"
-                        : "my-booking-status"
-                    }
-                  >
-                    {booking.status || "Confirmed"}
-                  </span>
+                 <div className="my-booking-status-section">
+                 <span
+                   className={
+                     booking.status === "Cancelled"
+                       ? "my-booking-status my-booking-status-cancelled"
+                       : "my-booking-status"
+                   }
+                 >
+                   {booking.status || "Confirmed"}
+                 </span>
+                 <span
+                   className={
+                     booking.paymentStatus === "Paid"
+                       ? "my-booking-payment my-booking-payment-paid"
+                       : "my-booking-payment"
+                   }
+                 >
+                   Payment: {booking.paymentStatus || "Pending"}
+                 </span>
+               </div>
                 </div>
                 {/* BOOKING ID */}
                 <div className="my-booking-id">

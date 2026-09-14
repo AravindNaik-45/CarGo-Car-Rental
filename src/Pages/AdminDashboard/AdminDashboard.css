@@ -53,6 +53,19 @@
 .admin-dashboard-cars-btn:hover {
   background-color: #333333;
 }
+.admin-dashboard-bookings-btn {
+  border: none;
+  background-color: #111111;
+  color: #ffffff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.admin-dashboard-bookings-btn:hover {
+  background-color: #333333;
+}
 /* STATISTICS */
 .admin-dashboard-stat-grid {
   max-width: 1200px;

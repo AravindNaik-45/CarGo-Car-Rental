@@ -6,6 +6,7 @@ import { getCars } from "../../Utils/carStorage";
 import CarCard from "../../Components/CarCard/CarCard";
 
 function Home() {
+  const cars = getCars();
   const [searchData,setSearchData] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory,setSelectedCategory] = useState("All");
