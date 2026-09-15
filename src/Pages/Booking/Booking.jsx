@@ -1,6 +1,7 @@
 import "./Booking.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { isCarAvailable } from "../../Utils/bookingUtils";
 import { getCars } from "../../Utils/carStorage";
 function Booking() {
   const { id } = useParams();
@@ -64,11 +65,14 @@ function Booking() {
   const handleBookingSubmit = (event) => {
     event.preventDefault();
     const isValid = validateBookingForm();
-    if (!isValid) {
-      return;
-    }
-    if (rentalDays <= 0) {
-      alert("Return date must be after pickup date.");
+    if (!isValid) return;
+     const available = isCarAvailable(
+       selectedCar.id,
+       bookingData.pickupDate,
+       bookingData.returnDate
+     );
+    if (!available) {
+      alert("This car is already booked for the selected dates. Please choose different dates.");
       return;
     }
     // Check existing bookings

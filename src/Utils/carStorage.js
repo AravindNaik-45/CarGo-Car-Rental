@@ -5,5 +5,6 @@ export const getCars = () => {
   if (savedCars) {
     return JSON.parse(savedCars);
   }
+  localStorage.setItem("cargoCars", JSON.stringify(cars));
   return cars;
 };

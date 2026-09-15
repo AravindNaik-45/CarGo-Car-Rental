@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import cars from "../../Data/Cars"
+import { getCars } from "../../Utils/carStorage";
 import "./Favorites.css"
 import { Link } from "react-router-dom"
 
@@ -8,7 +8,7 @@ const Favorites = () => {
     useEffect(() => {
         const savedFavorites =
         JSON.parse(localStorage.getItem("cargoFavorites" || []))
-
+        const currentCars = getCars();
         const favoriteCarList = cars.filter((car) => 
         savedFavorites.includes(Number(car.id))
     )

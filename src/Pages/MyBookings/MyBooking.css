@@ -309,6 +309,17 @@
   background-color: #d4edda;
   color: #155724;
 }
+.my-booking-payment {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 5px;
+}
+.my-booking-payment-paid {
+  color: #198754;
+}
+.my-booking-payment-pending {
+  color: #d97706;
+}
 /* Mobile */
 @media (max-width: 600px) {
   .my-booking-bottom {

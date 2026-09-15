@@ -1,6 +1,4 @@
-/* ============================= */
 /* Confirmation Page */
-/* ============================= */
 .confirmation-page {
   min-height: 100vh;
   display: flex;
@@ -9,9 +7,7 @@
   padding: 60px 25px;
   background: #f5f6f7;
 }
-/* ============================= */
 /* Confirmation Card */
-/* ============================= */
 .confirmation-card {
   width: 100%;
   max-width: 580px;
@@ -21,9 +17,7 @@
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
   text-align: center;
 }
-/* ============================= */
 /* Success Icon */
-/* ============================= */
 .confirmation-success-icon {
   width: 50px;
   height: 50px;
@@ -37,9 +31,7 @@
   font-size: 38px;
   font-weight: bold;
 }
-/* ============================= */
 /* Heading */
-/* ============================= */
 .confirmation-card h1 {
   margin: 0;
   font-size: 40px;
@@ -49,9 +41,7 @@
   color: #666;
   font-size: 16px;
 }
-/* ============================= */
 /* Booking ID */
-/* ============================= */
 .confirmation-id-box {
   margin-top: 25px;
   padding: 15px;
@@ -67,9 +57,7 @@
 .confirmation-id-box strong {
   font-size: 17px;
 }
-/* ============================= */
 /* Car Information */
-/* ============================= */
 .confirmation-car-info {
   display: flex;
   align-items: center;
@@ -95,9 +83,7 @@
   margin: 5px 0;
   color: #666;
 }
-/* ============================= */
 /* Booking Details */
-/* ============================= */
 .confirmation-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -119,9 +105,7 @@
 .confirmation-detail-item strong {
   font-size: 15px;
 }
-/* ============================= */
 /* Total */
-/* ============================= */
 .confirmation-total {
   display: flex;
   justify-content: space-between;
@@ -137,9 +121,7 @@
 .confirmation-total strong {
   font-size: 30px;
 }
-/* ============================= */
 /* Home Button */
-/* ============================= */
 .confirmation-home-btn {
   width: 100%;
   margin-top: 30px;
@@ -155,9 +137,7 @@
 .confirmation-home-btn:hover {
   background: #333;
 }
-/* ============================= */
 /* Empty State */
-/* ============================= */
 .confirmation-empty {
   min-height: 70vh;
   display: flex;
@@ -165,6 +145,62 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
+}
+/* Payment Information */
+.confirmation-payment {
+  display: flex;
+  gap: 20px;
+  margin-top: 25px;
+  padding: 18px;
+  background: #f5f6f7;
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+.confirmation-payment-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 180px;
+  text-align: left;
+}
+.confirmation-payment-item span {
+  color: #666;
+  font-size: 13px;
+}
+.confirmation-payment-item strong {
+  font-size: 16px;
+}
+.confirmation-payment-paid {
+  color: #198754 !important;
+}
+.confirmation-payment-pending {
+  color: #d97706 !important;
+}
+/* Confirmation Actions */
+.confirmation-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+/* View My Bookings Button */
+.confirmation-bookings-btn {
+  flex: 1;
+  padding: 14px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #198754;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.confirmation-bookings-btn:hover {
+  background: #157347;
+}
+/* Back Home Button */
+.confirmation-actions .confirmation-home-btn {
+  flex: 1;
+  margin-top: 0;
 }
 /* ============================= */
 /* Responsive */
@@ -186,5 +222,18 @@
   .confirmation-id-box {
     flex-direction: column;
     gap: 8px;
+  }
+    .confirmation-actions {
+    flex-direction: column;
+  }
+  .confirmation-bookings-btn,
+  .confirmation-actions .confirmation-home-btn {
+    width: 100%;
+  }
+  .confirmation-payment {
+    flex-direction: column;
+  }
+  .confirmation-payment-item {
+    min-width: auto;
   }
 }

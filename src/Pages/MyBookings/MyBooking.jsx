@@ -154,15 +154,15 @@ const MyBooking = () => {
                  >
                    {booking.status || "Confirmed"}
                  </span>
-                 <span
-                   className={
-                     booking.paymentStatus === "Paid"
-                       ? "my-booking-payment my-booking-payment-paid"
-                       : "my-booking-payment"
-                   }
-                 >
-                   Payment: {booking.paymentStatus || "Pending"}
-                 </span>
+                <span
+                  className={
+                    booking.paymentStatus === "Paid"
+                      ? "my-booking-payment my-booking-payment-paid"
+                      : "my-booking-payment my-booking-payment-pending"
+                  }
+                >
+                  Payment: {booking.paymentStatus || "Pending"}
+                </span>
                </div>
                 </div>
                 {/* BOOKING ID */}

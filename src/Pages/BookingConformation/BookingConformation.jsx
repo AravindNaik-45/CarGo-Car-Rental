@@ -63,11 +63,44 @@ import { useLocation, useNavigate } from "react-router-dom";
           <span> Total Amount</span>
           <strong> ₹{booking.totalPrice} </strong>
         </div>
+        <div className="confirmation-payment">
+          <div className="confirmation-payment-item">
+            <span>Payment Status</span>
+            <strong
+              className={
+                booking.paymentStatus === "Paid"
+                  ? "confirmation-payment-paid"
+                  : "confirmation-payment-pending"
+              }
+            >
+              {booking.paymentStatus || "Pending"}
+            </strong>
+          </div>
+          <div className="confirmation-payment-item">
+            <span>Payment Method</span>
+            <strong>
+              {booking.paymentMethod || "Not Paid"}
+            </strong>
+          </div>
+        </div>
         {/* Button */}
         <button
           className="confirmation-home-btn"
           onClick={() => navigate("/")}>
-          Back to Home</button>
+          Back to Home
+        </button>
+        <div className="confirmation-actions">
+          <button
+            className="confirmation-bookings-btn"
+            onClick={() => navigate("/my-bookings")}>
+            View My Bookings
+          </button>
+          <button
+            className="confirmation-home-btn"
+            onClick={() => navigate("/")}>
+            Back to Home
+          </button>
+        </div>
       </section>
     </main>
   );

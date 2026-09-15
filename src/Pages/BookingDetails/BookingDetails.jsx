@@ -79,6 +79,25 @@ const BookingDetails = () => {
           <span>Booking ID</span>
           <strong>{booking.bookingId}</strong>
         </div>
+        <div className="booking-details-payment-section">
+          <div className="booking-details-payment-item">
+            <span>Payment Status</span>
+            <strong
+              className={
+                booking.paymentStatus === "Paid"
+                  ? "booking-details-payment-paid"
+                  : "booking-details-payment-pending"
+              }>
+              {booking.paymentStatus || "Pending"}
+            </strong>
+          </div>
+          <div className="booking-details-payment-item">
+            <span>Payment Method</span>
+            <strong>
+              {booking.paymentMethod || "Not Paid"}
+            </strong>
+          </div>
+        </div>
         <div className="booking-details-information">
           <h3>Customer Information</h3>
           <div className="booking-details-grid">
@@ -132,8 +151,7 @@ const BookingDetails = () => {
               type="button"
               className="booking-details-payment-btn"
               onClick={() =>
-                navigate(
-                  `/payment/${booking.bookingId}`
+                navigate(`/payment/${booking.bookingId}`
                 )
               }
             > 💳 Make Payment

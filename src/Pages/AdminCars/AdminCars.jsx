@@ -20,9 +20,12 @@ const AdminCars = () => {
       });
     };
     const [adminCars, setAdminCars] = useState(() => {
-      const savedCars =
-        JSON.parse(localStorage.getItem("cargoCars")) || null;
-      return savedCars || cars;
+    const savedCars = localStorage.getItem("cargoCars");
+    if (savedCars) {
+      return JSON.parse(savedCars);
+    }
+    localStorage.setItem("cargoCars", JSON.stringify(cars));
+    return cars;
     });
     const [carData, setCarData] = useState({
       name: "",

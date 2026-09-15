@@ -4,8 +4,7 @@ import "./Payment.css";
 
 const Payment = () => {
     const { bookingId } = useParams();
-    const navigate = useNavigate();
-    
+    const navigate = useNavigate();   
     const [booking, setBooking] = useState(null);
     const [paymentMethod, setPaymentMethod] = useState("UPI");
     const [paymentStatus, setPaymentStatus] = useState("pending");
@@ -25,17 +24,16 @@ const Payment = () => {
       setTimeout(() => {
         const savedBookings =
           JSON.parse(localStorage.getItem("cargoBookings")) || [];
-        const updatedBookings = savedBookings.map((item) => {
-          if (
-            String(item.bookingId) === String(bookingId)
-          ) {
+        const updatedBookings = savedBookings.map((booking) => {
+          if (booking.bookingId === Number(bookingId)) {
             return {
-              ...item,
+              ...booking,
               paymentStatus: "Paid",
-              paymentMethod: paymentMethod
+              paymentMethod: paymentMethod,
+              status: "Confirmed"
             };
           }
-          return item;
+          return booking;
         });
         localStorage.setItem(
           "cargoBookings",

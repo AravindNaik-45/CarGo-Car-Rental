@@ -2,6 +2,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import NavBar from './Components/Navbar/NavBar'
 import Footer from './Components/Footer/Footer'
 import Home from './Pages/Home/Home'
+import Cars from './Pages/Cars/Cars'
 import CarDetails from './Pages/CarDetails/CarDetails'
 import Booking from './Pages/Booking/Booking'
 import BookingConformation from './Pages/BookingConformation/BookingConformation'
@@ -23,6 +24,7 @@ const App = () => {
     <Routes>
       <Route path='/login' element={<Login/>}/>
       <Route path='/' element={<Home/>}/>
+      <Route path="/cars" element={<Cars />} />
       <Route path='/cars/:id' element={<CarDetails/>}/>
       <Route path='/booking/:id' element={
         <ProtectedRoute>
