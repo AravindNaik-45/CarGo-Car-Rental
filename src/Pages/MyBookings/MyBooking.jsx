@@ -5,10 +5,17 @@ import { useNavigate } from "react-router-dom";
 const MyBooking = () => {
   const [bookingFilter, setBookingFilter] = useState("All");
   const navigate = useNavigate();
+  // Get bookings from localStorage
   const savedBookings =
     JSON.parse(localStorage.getItem("cargoBookings")) || [];
+  // Sort bookings: newest booking first
+  const sortedBookings = [...savedBookings].sort(
+      (a, b) =>
+        new Date(b.createdAt || 0) -
+        new Date(a.createdAt || 0)
+    );
   // Filter bookings for display
-  const filteredBookings = savedBookings.filter((booking) => {
+  const filteredBookings = sortedBookings.filter((booking) => {
     if (bookingFilter === "All") {
       return true;
     }
@@ -21,21 +28,47 @@ const MyBooking = () => {
     return true;
   });
   // Cancel booking
+  // Update original saved bookings
   const handleCancelBooking = (bookingId) => {
-    const confirmCancel = window.confirm(
+  const confirmCancel = window.confirm(
       "Are you sure you want to cancel this booking?"
     );
-    if (!confirmCancel) {
-      return;
-    }
+    if (!confirmCancel) return;
     const updatedBookings = savedBookings.map((booking) => {
-      if (booking.bookingId === bookingId) {
-        return {
-          ...booking,
-          status: "Cancelled",
-        };
+      if (String(booking.bookingId) !== String(bookingId)) {
+        return booking;
       }
-      return booking;
+      const today = new Date();
+      const pickupDate = new Date(booking.pickupDate);
+      let refundStatus = "Not Applicable";
+      let refundAmount = 0;
+      // Paid booking
+      if (booking.paymentStatus === "Paid") {
+        // Cancelled before pickup
+        if (today < pickupDate) {
+          refundStatus = "Refund Completed";
+          refundAmount = Number(booking.totalPrice || 0);
+        } else {
+          // Cancellation on/after pickup date
+          refundStatus = "No Refund";
+          refundAmount = 0;
+        }
+      }
+      return {
+        ...booking,
+        status: "Cancelled",
+        refundStatus: refundStatus,  
+        refundAmount: refundAmount,
+        refundMethod:
+          refundAmount > 0
+            ? booking.paymentMethod || "Original Payment Method"
+            : "Not Applicable",
+        cancelledAt: new Date().toISOString(),
+        refundedAt:
+          refundAmount > 0
+            ? new Date().toISOString()
+            : null
+      };
     });
     localStorage.setItem(
       "cargoBookings",
@@ -163,6 +196,19 @@ const MyBooking = () => {
                 >
                   Payment: {booking.paymentStatus || "Pending"}
                 </span>
+                {booking.status === "Cancelled" && (
+                  <span
+                    className={
+                      booking.refundStatus === "Refund Completed"
+                        ? "my-booking-refund my-booking-refund-completed"
+                        : booking.refundStatus === "No Refund"
+                        ? "my-booking-refund my-booking-refund-none"
+                        : "my-booking-refund my-booking-refund-pending"
+                    }
+                  >
+                    Refund: {booking.refundStatus || "Pending"}
+                  </span>
+                )}
                </div>
                 </div>
                 {/* BOOKING ID */}
@@ -172,6 +218,15 @@ const MyBooking = () => {
                     {booking.bookingId}
                   </strong>
                 </div>
+                 {/* BOOKED DATE */}
+                <p className="my-booking-created-date">
+                  Booked On:{" "}
+                  {booking.createdAt
+                    ? new Date(
+                        booking.createdAt
+                      ).toLocaleDateString("en-IN")
+                    : "N/A"}
+                </p>
                 {/* BOOKING DETAILS */}
                 <div className="my-booking-details">
                   <div>
@@ -206,11 +261,12 @@ const MyBooking = () => {
                       Total Amount
                     </span>
                     <strong>
-                      ₹{booking.totalPrice}
+                      ₹{Number(booking.totalPrice || 0).toLocaleString("en-IN")}
                     </strong>
                   </div>
-                  {/* CANCEL BUTTON */}
+                  {/* ACTION BUTTON */}
                   <div className="my-booking-action-buttons">
+                  {/* VIEW DETAILS */}
                   <button
                     type="button"
                     className="my-booking-view-details-btn"
@@ -220,6 +276,7 @@ const MyBooking = () => {
                   >
                     View Details
                   </button>
+                  {/* CANCEL BUTTON */}
                   {booking.status !== "Cancelled" && (
                     <button
                       type="button"
@@ -240,4 +297,5 @@ const MyBooking = () => {
     </main>
   );
 };
+
 export default MyBooking;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./BookingDetails.css"
+import "./BookingDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 const BookingDetails = () => {
@@ -12,7 +12,6 @@ const BookingDetails = () => {
     useEffect(() => {
       const savedBookings =
       JSON.parse(localStorage.getItem("cargoBookings")) || [];
-  
       const selectedBooking = savedBookings.find(
       (item) => String(item.bookingId) === String(bookingId)
        );
@@ -73,31 +72,137 @@ const BookingDetails = () => {
             >
               {booking.status || "Confirmed"}
             </div>
+            {booking.status === "Cancelled" && (
+              <p className="booking-details-cancelled-message">
+                This booking has been cancelled and is no longer active.
+              </p>
+            )}
           </div>
         </div>
         <div className="booking-details-id-section">
           <span>Booking ID</span>
           <strong>{booking.bookingId}</strong>
         </div>
-        <div className="booking-details-payment-section">
-          <div className="booking-details-payment-item">
-            <span>Payment Status</span>
-            <strong
+        {booking.createdAt && (
+          <div className="booking-details-created-section">
+            <span>Booked On</span>    
+            <strong>
+              {new Date(booking.createdAt).toLocaleString()}
+            </strong>
+          </div>
+        )}
+        {/* Booking Timeline */}
+        <div className="booking-details-timeline">
+          <div className="booking-details-timeline-title">
+            Booking Timeline
+          </div>
+          <div className="booking-details-timeline-item">
+            <div className="booking-details-timeline-dot">
+              ✓
+            </div>
+            <div className="booking-details-timeline-content">
+              <strong>Booking Created</strong>
+              <span>
+                {booking.createdAt
+                  ? new Date(booking.createdAt).toLocaleString("en-IN")
+                  : "N/A"}
+              </span>
+            </div>
+          </div>
+          <div className="booking-details-timeline-line"></div>
+          <div className="booking-details-timeline-item">
+            <div className="booking-details-timeline-dot">
+              ✓
+            </div>
+            <div className="booking-details-timeline-content">
+              <strong>
+                {booking.status === "Cancelled"
+                  ? "Booking Cancelled"
+                  : "Booking Confirmed"}
+              </strong>
+              <span>
+                {booking.status === "Cancelled"
+                  ? "This booking is cancelled"
+                  : "Your car booking is confirmed"}
+              </span>
+            </div>
+          </div>
+          <div className="booking-details-timeline-line"></div>
+          <div className="booking-details-timeline-item">
+            <div
               className={
                 booking.paymentStatus === "Paid"
-                  ? "booking-details-payment-paid"
-                  : "booking-details-payment-pending"
-              }>
-              {booking.paymentStatus || "Pending"}
-            </strong>
-          </div>
-          <div className="booking-details-payment-item">
-            <span>Payment Method</span>
-            <strong>
-              {booking.paymentMethod || "Not Paid"}
-            </strong>
+                  ? "booking-details-timeline-dot"
+                  : "booking-details-timeline-dot booking-details-timeline-pending"
+              }
+            >
+              {booking.paymentStatus === "Paid" ? "✓" : "!"}
+            </div>
+            <div className="booking-details-timeline-content">
+              <strong>
+                {booking.paymentStatus === "Paid"
+                  ? "Payment Completed"
+                  : "Payment Pending"}
+              </strong>
+              <span>
+                {booking.paymentStatus === "Paid"
+                  ? `Paid via ${booking.paymentMethod || "Online"}`
+                  : "Complete payment to confirm payment status"}
+              </span>
+            </div>
           </div>
         </div>
+        {/* ADD REFUND INFORMATION HERE */}
+        {booking.status === "Cancelled" &&
+          booking.paymentStatus === "Paid" && (
+            <div className="booking-details-refund-section">
+              <div className="booking-details-refund-item">
+                <span>Refund Status</span>
+                <strong
+                  className={
+                    booking.refundStatus === "Refund Completed"
+                    ? "booking-details-refund-completed"
+                    : "booking-details-refund-pending"
+                  }
+                  >
+                  {booking.refundStatus || "Refund Pending"}
+                </strong>
+              </div>
+              <div className="booking-details-refund-item">
+                <span>Refund Amount</span>        
+                <strong>
+                  ₹{Number(
+                    booking.refundAmount || 0
+                  ).toLocaleString("en-IN")}
+                </strong>
+              </div>
+              <div className="booking-details-refund-item">
+                <span>Refund Method</span>
+                <strong>
+                  {booking.refundMethod || "Not Applicable"}
+                </strong>
+              </div>
+            </div>
+          )}
+          <div className="booking-details-payment-section">
+            <div className="booking-details-payment-item">
+              <span>Payment Status</span>
+              <strong
+                className={
+                  booking.paymentStatus === "Paid"
+                    ? "booking-details-payment-paid"
+                    : "booking-details-payment-pending"
+                }>
+                {booking.paymentStatus || "Pending"}
+              </strong>
+            </div>
+            <div className="booking-details-payment-item">
+              <span>Payment Method</span>
+              <strong>
+                {booking.paymentMethod || "Not Paid"}
+              </strong>
+            </div>
+          </div>
         <div className="booking-details-information">
           <h3>Customer Information</h3>
           <div className="booking-details-grid">
@@ -132,17 +237,17 @@ const BookingDetails = () => {
             </div>
             <div className="booking-details-item">
               <span>Rental Days</span>
-              <strong>{booking.rentalDays}</strong>
+              <strong>{booking.rentalDays} {booking.rentalDays === 1 ? "Day" : "Days"}</strong>
             </div>
             <div className="booking-details-item">
               <span>Price Per Day</span>
-              <strong>₹{booking.car.price}</strong>
+              <strong>₹{Number(booking.car.price || 0).toLocaleString("en-IN")}</strong>
             </div>
           </div>
         </div>
         <div className="booking-details-total-section">
           <span>Total Amount</span>
-          <strong>₹{booking.totalPrice}</strong>
+          <strong>₹{Number(booking.totalPrice || 0).toLocaleString("en-IN")}</strong>
         </div>
         <div className="booking-details-action-buttons">
           {booking.paymentStatus !== "Paid" &&

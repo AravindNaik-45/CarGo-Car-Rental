@@ -25,7 +25,7 @@ const Payment = () => {
         const savedBookings =
           JSON.parse(localStorage.getItem("cargoBookings")) || [];
         const updatedBookings = savedBookings.map((booking) => {
-          if (booking.bookingId === Number(bookingId)) {
+          if (String(booking.bookingId) === String(bookingId)) {
             return {
               ...booking,
               paymentStatus: "Paid",

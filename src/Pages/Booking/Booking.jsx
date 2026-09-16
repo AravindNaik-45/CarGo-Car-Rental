@@ -75,50 +75,37 @@ function Booking() {
       alert("This car is already booked for the selected dates. Please choose different dates.");
       return;
     }
-    // Check existing bookings
     const existingBookings =
       JSON.parse(localStorage.getItem("cargoBookings")) || [];
-  
-    // Check whether the selected car is already booked
-    const hasBookingConflict = existingBookings.some((booking) => {
-      const sameCar =
-        Number(booking.car?.id) === Number(selectedCar.id);
-      const activeBooking =
-        booking.status !== "Cancelled";
-      const dateOverlap =
-        bookingData.pickupDate <= booking.returnDate &&
-        bookingData.returnDate >= booking.pickupDate;
-      return sameCar && activeBooking && dateOverlap;
-    });
-    // Stop booking if car is already booked
-    if (hasBookingConflict) {
-      alert("This car is already booked for the selected dates. Please choose different dates or another car.");
-      return;
-    }
     // Create new booking
-    const bookingId = "CG-" + Math.floor(100000 + Math.random() * 900000);
+    const bookingId = `CG-${Date.now()}`;
     const bookingDetails = {
-    bookingId: bookingId,
-    car: selectedCar,
-    name: bookingData.name,
-    email: bookingData.email,
-    phone: bookingData.phone,
-    location: bookingData.location,
-    pickupDate: bookingData.pickupDate,
-    returnDate: bookingData.returnDate,
-    rentalDays: rentalDays,
-    totalPrice: totalPrice,
-    // Booking status
-    status: "Confirmed",
-    // Payment status
-    paymentStatus: "Pending",
-    // Payment method
-    paymentMethod: ""
-  };
-  existingBookings.push(bookingDetails);
-  localStorage.setItem("cargoBookings",
-  JSON.stringify(existingBookings));
-  navigate("/booking-confirmation",{
+     bookingId: bookingId,
+     carId: selectedCar.id,
+     car: selectedCar,
+     name: bookingData.name,
+     email: bookingData.email,
+     phone: bookingData.phone,
+     location: bookingData.location,
+     pickupDate: bookingData.pickupDate,
+     returnDate: bookingData.returnDate,
+     rentalDays: rentalDays,
+     totalPrice: totalPrice,
+     // Booking status
+     status: "Confirmed",
+     // Payment status
+     paymentStatus: "Pending",
+     // Payment method
+     paymentMethod: "Not Paid",
+     // Booking creation date
+     createdAt: new Date().toISOString()
+   };
+   existingBookings.push(bookingDetails);
+   localStorage.setItem(
+     "cargoBookings",
+     JSON.stringify(existingBookings)
+   );
+   navigate("/booking-confirmation",{
       state: bookingDetails
     }
   );
