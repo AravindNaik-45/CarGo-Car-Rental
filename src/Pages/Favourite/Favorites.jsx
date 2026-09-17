@@ -8,8 +8,7 @@ const Favorites = () => {
     useEffect(() => {
         const savedFavorites =
         JSON.parse(localStorage.getItem("cargoFavorites" || []))
-        const currentCars = getCars();
-        const favoriteCarList = cars.filter((car) => 
+        const favoriteCarList = getCars().filter((car) => 
         savedFavorites.includes(Number(car.id))
     )
         setFavoriteCars(favoriteCarList)

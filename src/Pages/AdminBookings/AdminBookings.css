@@ -102,13 +102,14 @@
 }
 .admin-bookings-card {
   display: grid;
-  grid-template-columns: 1.5fr 1.2fr 1.2fr 1fr 1fr 1.2fr;
-  gap: 20px;
+  grid-template-columns: 1.5fr 1.2fr 1.2fr 1fr 0.9fr 1.3fr 1.2fr;
   align-items: center;
-  padding: 22px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  gap: 22px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 22px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
 }
 /* CAR */
 .admin-bookings-car-section {
@@ -178,11 +179,127 @@
   background-color: #e8f7ed;
   color: #218838;
 }
-/* ACTIONS */
-.admin-bookings-actions {
+/* BOOKING STATISTICS */
+.admin-bookings-stats-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.admin-bookings-stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 22px 24px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+.admin-bookings-stat-card span {
+  font-size: 14px;
+  color: #777;
+  font-weight: 600;
+}
+.admin-bookings-stat-card strong {
+  font-size: 28px;
+  color: #111;
+}
+/* FINANCIAL DETAILS */
+.admin-bookings-financial-details {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.admin-bookings-financial-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.admin-bookings-financial-row span {
+  font-size: 13px;
+  color: #777;
+}
+.admin-bookings-financial-row strong {
+  font-size: 13px;
+  color: #111;
+}
+.admin-bookings-amount-section {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.admin-bookings-created-date {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #777;
+  font-weight: 500;
+}
+/* REFUND */
+.admin-bookings-refund-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  grid-column: 6;
+}
+.admin-bookings-refund {
+  display: inline-block;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.admin-bookings-refund-completed {
+  background-color: #d4edda;
+  color: #155724;
+}
+.admin-bookings-refund-pending {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.admin-bookings-refund-none {
+  background-color: #f8d7da;
+  color: #842029;
+}
+.admin-bookings-refund-amount {
+  font-size: 13px;
+  font-weight: 700;
+  color: #198754;
+}
+/* FINANCIAL STATISTICS */
+.admin-bookings-financial-section {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+.admin-bookings-financial-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+.admin-bookings-financial-card span {
+  font-size: 14px;
+  color: #777;
+  font-weight: 600;
+}
+.admin-bookings-financial-card strong {
+  font-size: 26px;
+  color: #111;
+}
+/* ACTIONS */
+.admin-bookings-actions {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   grid-column: 7;
 }
 .admin-bookings-details-btn,
 .admin-bookings-cancel-btn {
@@ -239,15 +356,33 @@
 /* RESPONSIVE */
 @media (max-width: 1100px) {
   .admin-bookings-card {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
   .admin-bookings-actions {
     flex-direction: row;
+  }
+  .admin-bookings-refund-section {
+  grid-column: auto;
+  }
+  .admin-bookings-actions {
+  grid-column: auto;
+  }
+  .admin-bookings-stats-section {
+  grid-template-columns: repeat(2, 1fr);
+  }
+  .admin-bookings-financial-section {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 @media (max-width: 750px) {
   .admin-bookings-page {
     padding: 35px 20px;
+  }
+  .admin-bookings-financial-section {
+    grid-template-columns: 1fr;
+  }
+  .admin-bookings-stats-section {
+    grid-template-columns: 1fr;
   }
   .admin-bookings-header {
     flex-direction: column;
@@ -268,5 +403,11 @@
   .admin-bookings-details-btn,
   .admin-bookings-cancel-btn {
     flex: 1;
+  }
+  .admin-bookings-refund-section {
+  grid-column: auto;
+  }
+  .admin-bookings-actions {
+    grid-column: auto;
   }
 }

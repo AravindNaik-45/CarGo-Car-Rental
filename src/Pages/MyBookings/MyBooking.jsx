@@ -30,52 +30,69 @@ const MyBooking = () => {
   // Cancel booking
   // Update original saved bookings
   const handleCancelBooking = (bookingId) => {
+  const booking = savedBookings.find(
+    (item) => String(item.bookingId) === String(bookingId)
+  );
+  if (!booking) {
+    alert("Booking not found.");
+    return;
+  }
+  // Prevent cancelling an already cancelled booking
+  if (booking.status === "Cancelled") {
+    alert("This booking is already cancelled.");
+    return;
+  }
+  const today = new Date();
+  const returnDate = new Date(booking.returnDate);
+  // Prevent cancellation after rental period
+  if (today >= returnDate) {
+    alert("This booking cannot be cancelled after the return date.");
+    return;
+  }
   const confirmCancel = window.confirm(
-      "Are you sure you want to cancel this booking?"
-    );
-    if (!confirmCancel) return;
-    const updatedBookings = savedBookings.map((booking) => {
-      if (String(booking.bookingId) !== String(bookingId)) {
-        return booking;
-      }
-      const today = new Date();
-      const pickupDate = new Date(booking.pickupDate);
-      let refundStatus = "Not Applicable";
-      let refundAmount = 0;
-      // Paid booking
-      if (booking.paymentStatus === "Paid") {
-        // Cancelled before pickup
-        if (today < pickupDate) {
-          refundStatus = "Refund Completed";
-          refundAmount = Number(booking.totalPrice || 0);
-        } else {
-          // Cancellation on/after pickup date
-          refundStatus = "No Refund";
-          refundAmount = 0;
-        }
-      }
-      return {
-        ...booking,
-        status: "Cancelled",
-        refundStatus: refundStatus,  
-        refundAmount: refundAmount,
-        refundMethod:
-          refundAmount > 0
-            ? booking.paymentMethod || "Original Payment Method"
-            : "Not Applicable",
-        cancelledAt: new Date().toISOString(),
-        refundedAt:
-          refundAmount > 0
-            ? new Date().toISOString()
-            : null
-      };
-    });
-    localStorage.setItem(
-      "cargoBookings",
-      JSON.stringify(updatedBookings)
-    );
-    window.location.reload();
-  };
+    "Are you sure you want to cancel this booking?"
+  );
+  if (!confirmCancel) return;
+  let refundStatus = "Not Applicable";
+  let refundAmount = 0;
+  // Refund logic
+  if (booking.paymentStatus === "Paid") {
+    const pickupDate = new Date(booking.pickupDate);
+    if (today < pickupDate) {
+      refundStatus = "Refund Completed";
+      refundAmount = Number(booking.totalPrice || 0);
+    } else {
+      refundStatus = "No Refund";
+      refundAmount = 0;
+    }
+  }
+  const updatedBookings = savedBookings.map((item) => {
+    if (String(item.bookingId) !== String(bookingId)) {
+      return item;
+    }
+    return {
+      ...item,
+      status: "Cancelled",
+      cancellationReason: "Cancelled by customer",
+      cancelledAt: new Date().toISOString(),
+      refundStatus: refundStatus,
+      refundAmount: refundAmount,
+      refundMethod:
+        refundAmount > 0
+          ? item.paymentMethod || "Original Payment Method"
+          : "Not Applicable",
+      refundedAt:
+        refundAmount > 0
+          ? new Date().toISOString()
+          : null
+    };
+  });
+  localStorage.setItem(
+    "cargoBookings",
+    JSON.stringify(updatedBookings)
+  );
+  window.location.reload();
+};
   return (
     <main className="my-bookings-page">
       {/* HEADER */}
@@ -164,8 +181,8 @@ const MyBooking = () => {
               {/* CAR IMAGE */}
               <div className="my-booking-image">
                 <img
-                  src={booking.car.image}
-                  alt={booking.car.name}
+                  src={booking.car?.image || "/assets/default-car.jpg"}
+                  alt={booking.car?.name || "Car"}
                 />
               </div>
               {/* BOOKING INFORMATION */}
@@ -173,8 +190,8 @@ const MyBooking = () => {
                 {/* TOP */}
                 <div className="my-booking-top">
                   <div>
-                    <h2>{booking.car.name}</h2>
-                    <p>{booking.car.category}</p>
+                    <h2>{booking.car?.name || "Car Details Unavailable"}</h2>
+                    <p>{booking.car?.category || "Category Unavailable"}</p>
                   </div>
                   {/* STATUS */}
                  <div className="my-booking-status-section">
@@ -222,9 +239,8 @@ const MyBooking = () => {
                 <p className="my-booking-created-date">
                   Booked On:{" "}
                   {booking.createdAt
-                    ? new Date(
-                        booking.createdAt
-                      ).toLocaleDateString("en-IN")
+                    ? new Date( booking.createdAt )
+                    .toLocaleDateString("en-IN")
                     : "N/A"}
                 </p>
                 {/* BOOKING DETAILS */}
@@ -238,19 +254,23 @@ const MyBooking = () => {
                   <div>
                     <span>Pickup Date</span>
                     <strong>
-                      {booking.pickupDate}
+                      {booking.pickupDate
+                        ? new Date(booking.pickupDate).toLocaleDateString("en-IN")
+                        : "N/A"}
                     </strong>
                   </div>
                   <div>
                     <span>Return Date</span>
                     <strong>
-                      {booking.returnDate}
+                      {booking.returnDate
+                        ? new Date(booking.returnDate).toLocaleDateString("en-IN")
+                        : "N/A"}
                     </strong>
                   </div>
                   <div>
                     <span>Rental Days</span>
                     <strong>
-                      {booking.rentalDays}
+                      {Number(booking.rentalDays || 0)} Days
                     </strong>
                   </div>
                 </div>
