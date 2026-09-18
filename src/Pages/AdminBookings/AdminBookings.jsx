@@ -10,6 +10,79 @@ const AdminBookings = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [statusFilter, setStatusFilter] = useState("All");
     const [paymentFilter, setPaymentFilter] = useState("All");
+    const [dateFilter, setDateFilter] = useState("All");
+    const handleResetFilters = () => {
+      setSearchTerm("");
+      setStatusFilter("All");
+      setPaymentFilter("All");
+      setDateFilter("All");
+    };
+    const handleExportBookings = () => {
+      if (bookings.length === 0) {
+        alert("No bookings available to export.");
+        return;
+      }
+      const headers = [
+        "Booking ID",
+        "Customer",
+        "Email",
+        "Car",
+        "Pickup Date",
+        "Return Date",
+        "Rental Days",
+        "Total Amount",
+        "Payment Status",
+        "Payment Method",
+        "Booking Status",
+        "Refund Amount",
+        "Refund Status",
+        "Booked On"
+      ];
+      const rows = bookings.map((booking) => [
+        booking.bookingId || "",
+        booking.name || "",
+        booking.email || "",
+        booking.car?.name || "",
+        booking.pickupDate
+          ? new Date(booking.pickupDate).toLocaleDateString("en-IN")
+          : "",
+        booking.returnDate
+          ? new Date(booking.returnDate).toLocaleDateString("en-IN")
+          : "",
+        Number(booking.rentalDays || 0),
+        Number(booking.totalPrice || 0),
+        booking.paymentStatus || "Pending",
+        booking.paymentMethod || "Not Paid",
+        booking.status || "Confirmed",
+        Number(booking.refundAmount || 0),
+        booking.refundStatus || "Not Applicable",
+        booking.createdAt
+          ? new Date(booking.createdAt).toLocaleDateString("en-IN")
+          : ""
+      ]);
+      const csvContent = [
+        headers,
+        ...rows
+      ]
+        .map((row) =>
+          row
+            .map((value) => `"${String(value).replace(/"/g, '""')}"`)
+            .join(",")
+        )
+        .join("\n");
+      const blob = new Blob(
+        [csvContent],
+        { type: "text/csv;charset=utf-8;" }
+      );
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "cargo-bookings.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    };
     const totalBookings = bookings.length;
     const confirmedBookings = bookings.filter(
       (booking) => booking.status !== "Cancelled"
@@ -20,6 +93,30 @@ const AdminBookings = () => {
     const paidBookings = bookings.filter(
       (booking) => booking.paymentStatus === "Paid"
     ).length;
+    const pendingPayments = bookings.filter(
+      (booking) => booking.paymentStatus !== "Paid"
+    ).length;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayBookings = bookings.filter((booking) => {
+      if (!booking.pickupDate) return false;
+      const pickupDate = new Date(booking.pickupDate);
+      pickupDate.setHours(0, 0, 0, 0);
+      return pickupDate.getTime() === today.getTime();
+    }).length;
+    const upcomingBookings = bookings.filter((booking) => {
+      if (!booking.pickupDate) return false;
+      const pickupDate = new Date(booking.pickupDate);
+      pickupDate.setHours(0, 0, 0, 0);
+      return pickupDate > today &&
+        booking.status !== "Cancelled";
+    }).length;
+    const pastBookings = bookings.filter((booking) => {
+      if (!booking.pickupDate) return false;
+      const pickupDate = new Date(booking.pickupDate);
+      pickupDate.setHours(0, 0, 0, 0);
+      return pickupDate < today;
+    }).length;
     const totalRevenue = bookings.reduce((total, booking) => {
       if (booking.paymentStatus === "Paid") {
         return total + Number(booking.totalPrice || 0);
@@ -144,10 +241,30 @@ const AdminBookings = () => {
           booking.paymentStatus === "Paid") ||
         (paymentFilter === "Pending" &&
           booking.paymentStatus !== "Paid");
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const pickupDate = booking.pickupDate
+        ? new Date(booking.pickupDate)
+        : null;
+      if (pickupDate) {
+        pickupDate.setHours(0, 0, 0, 0);
+      }      
+      const matchesDate =
+        dateFilter === "All" ||
+        (dateFilter === "Today" &&
+          pickupDate &&
+          pickupDate.getTime() === today.getTime()) ||
+        (dateFilter === "Upcoming" &&
+          pickupDate &&
+          pickupDate > today) ||
+        (dateFilter === "Past" &&
+          pickupDate &&
+          pickupDate < today);
       return (
         matchesSearch &&
         matchesStatus &&
-        matchesPayment
+        matchesPayment &&
+        matchesDate
       );
     });
   return (
@@ -163,13 +280,22 @@ const AdminBookings = () => {
             Manage customer bookings, statuses and payments.
           </p>
         </div>
-        <button
-          type="button"
-          className="admin-bookings-back-btn"
-          onClick={() => navigate("/admin")}
-        >
-          ← Admin Dashboard
-        </button>
+        <div className="admin-bookings-header-actions">
+          <button
+            type="button"
+            className="admin-bookings-export-btn"
+            onClick={handleExportBookings}
+          >
+            📥 Export Bookings
+          </button>
+          <button
+            type="button"
+            className="admin-bookings-back-btn"
+            onClick={() => navigate("/admin")}
+          >
+            ← Admin Dashboard
+          </button>
+        </div>
       </section>
       {/* BOOKING STATISTICS */}
       <section className="admin-bookings-stats-section">
@@ -188,6 +314,22 @@ const AdminBookings = () => {
         <div className="admin-bookings-stat-card">
           <span>Paid</span>
           <strong>{paidBookings}</strong>
+        </div>
+        <div className="admin-bookings-stat-card">
+          <span>Pending Payment</span>
+          <strong>{pendingPayments}</strong>
+        </div>
+        <div className="admin-bookings-stat-card">
+          <span>Today's Bookings</span>
+          <strong>{todayBookings}</strong>
+        </div>
+        <div className="admin-bookings-stat-card">
+          <span>Upcoming Bookings</span>
+          <strong>{upcomingBookings}</strong>
+        </div>      
+        <div className="admin-bookings-stat-card">
+          <span>Past Bookings</span>
+          <strong>{pastBookings}</strong>
         </div>
       </section>
       {/* FINANCIAL STATISTICS */}
@@ -256,6 +398,30 @@ const AdminBookings = () => {
             <option value="Paid">Paid</option>
             <option value="Pending">Pending</option>
           </select>
+        </div>
+        <div className="admin-bookings-filter-box">
+          <label htmlFor="admin-booking-date">
+            Rental Date
+          </label>      
+          <select
+            id="admin-booking-date"
+            value={dateFilter}
+            onChange={(event) =>
+              setDateFilter(event.target.value)
+            }
+          >
+            <option value="All">All Dates</option>
+            <option value="Today">Today</option>
+            <option value="Upcoming">Upcoming</option>
+            <option value="Past">Past</option>
+          </select>
+        <button
+          type="button"
+          className="admin-bookings-reset-btn"
+          onClick={handleResetFilters}
+        >
+          Reset Filters
+        </button>
         </div>
       </section>
       {/* BOOKING COUNT */}

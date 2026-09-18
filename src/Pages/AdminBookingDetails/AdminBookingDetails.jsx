@@ -260,14 +260,22 @@ const AdminBookingDetails = () => {
         )}
         {/* ACTION */}
         <div className="admin-booking-details-actions">
-          <button
-            type="button"
-            onClick={() =>
-              navigate("/admin/bookings")
-            }
-          >
-            ← Back to Booking Management
-          </button>
+           <button
+             type="button"
+             className="admin-booking-details-print-btn"
+             onClick={() => window.print()}
+           >
+             🖨 Print Booking
+           </button>
+           <button
+             type="button"
+             className="admin-booking-details-back-action-btn"
+             onClick={() =>
+               navigate("/admin/bookings")
+             }
+           >
+             ← Back to Booking Management
+           </button>
         </div>
       </section>
     </main>

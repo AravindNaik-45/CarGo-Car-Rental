@@ -96,16 +96,24 @@
   color: #111;
 }
 .admin-booking-details-actions {
+  display: flex;
+  gap: 12px;
   padding-top: 25px;
 }
 .admin-booking-details-actions button {
   padding: 12px 20px;
   border: none;
   border-radius: 8px;
-  background-color: #111;
-  color: #fff;
   font-weight: 600;
   cursor: pointer;
+}
+.admin-booking-details-print-btn {
+  background-color: #111;
+  color: #fff;
+}
+.admin-booking-details-back-action-btn {
+  background-color: #e9ecef;
+  color: #111;
 }
 .admin-booking-details-not-found {
   max-width: 500px;
@@ -123,6 +131,32 @@
   background-color: #111;
   color: #fff;
   cursor: pointer;
+}
+@media print {
+  body {
+    background: #fff;
+  }
+  .admin-booking-details-page {
+    padding: 0;
+    background: #fff;
+  }
+  .admin-booking-details-header {
+    margin-bottom: 20px;
+  }
+  .admin-booking-details-back-btn {
+    display: none;
+  }
+  .admin-booking-details-card {
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+  }
+  .admin-booking-details-actions {
+    display: none;
+  }
+  .admin-booking-details-section {
+    break-inside: avoid;
+  }
 }
 @media (max-width: 900px) {
   .admin-booking-details-grid {

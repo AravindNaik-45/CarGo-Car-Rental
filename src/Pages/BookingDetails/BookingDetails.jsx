@@ -8,6 +8,79 @@ const BookingDetails = () => {
     const handlePrintReceipt = () => {
         window.print();
     };
+    const handleCancelBooking = (bookingId) => {
+      const savedBookings =
+        JSON.parse(localStorage.getItem("cargoBookings")) || [];
+      const booking = savedBookings.find(
+        (item) =>
+          String(item.bookingId) === String(bookingId)
+      );
+      if (!booking) {
+        alert("Booking not found.");
+        return;
+      }
+      if (booking.status === "Cancelled") {
+        alert("This booking is already cancelled.");
+        return;
+      }
+      const today = new Date();
+      const returnDate = new Date(booking.returnDate);
+      if (today >= returnDate) {
+        alert(
+          "This booking cannot be cancelled after the return date."
+        );
+        return;
+      }
+      const confirmCancel = window.confirm(
+        "Are you sure you want to cancel this booking?"
+      );
+      if (!confirmCancel) return;
+      let refundStatus = "Not Applicable";
+      let refundAmount = 0;
+      if (booking.paymentStatus === "Paid") {
+        const pickupDate = new Date(booking.pickupDate);
+        if (today < pickupDate) {
+          refundStatus = "Refund Completed";
+          refundAmount = Number(booking.totalPrice || 0);
+        } else {
+          refundStatus = "No Refund";
+        }
+      }
+      const updatedBookings = savedBookings.map(
+        (item) => {
+          if (
+            String(item.bookingId) !==
+            String(bookingId)
+          ) {
+            return item;
+          }
+          return {
+            ...item,
+            status: "Cancelled",
+            cancellationReason:
+              "Cancelled by customer",
+            cancelledAt:
+              new Date().toISOString(),
+            refundStatus: refundStatus,
+            refundAmount: refundAmount,
+            refundMethod:
+              refundAmount > 0
+                ? item.paymentMethod ||
+                  "Original Payment Method"
+                : "Not Applicable",
+            refundedAt:
+              refundAmount > 0
+                ? new Date().toISOString()
+                : null
+          };
+        }
+      );
+      localStorage.setItem(
+        "cargoBookings",
+        JSON.stringify(updatedBookings)
+      );
+      navigate("/my-bookings");
+    };
     const [booking, setBooking] = useState(null);  
     useEffect(() => {
       const savedBookings =
@@ -49,15 +122,15 @@ const BookingDetails = () => {
         <div className="booking-details-car-section">
           <div className="booking-details-car-image">
             <img
-              src={booking.car.image}
-              alt={booking.car.name}
+              src={booking.car?.image || "/assets/default-car.jpg"}
+              alt={booking.car?.name || "Car"}
             />
           </div>
           <div className="booking-details-car-info">
             <p className="booking-details-category">
-              {booking.car.category}
-            </p>
-            <h2>{booking.car.name}</h2>
+               {booking.car?.category || "Car"}
+             </p>
+             <h2>{booking.car?.name || "Unknown Car"}</h2>
             <p>
               ⭐ {booking.car.rating} &nbsp; | &nbsp;
               {booking.car.seats} Seats &nbsp; | &nbsp;
@@ -229,11 +302,19 @@ const BookingDetails = () => {
           <div className="booking-details-grid">
             <div className="booking-details-item">
               <span>Pickup Date</span>
-              <strong>{booking.pickupDate}</strong>
+              <strong>
+                {booking.pickupDate
+                  ? new Date(booking.pickupDate).toLocaleDateString("en-IN")
+                  : "N/A"}
+              </strong>
             </div>
             <div className="booking-details-item">
               <span>Return Date</span>
-              <strong>{booking.returnDate}</strong>
+              <strong>
+                {booking.returnDate
+                  ? new Date(booking.returnDate).toLocaleDateString("en-IN")
+                  : "N/A"}
+              </strong>
             </div>
             <div className="booking-details-item">
               <span>Rental Days</span>
@@ -241,7 +322,7 @@ const BookingDetails = () => {
             </div>
             <div className="booking-details-item">
               <span>Price Per Day</span>
-              <strong>₹{Number(booking.car.price || 0).toLocaleString("en-IN")}</strong>
+              <strong>₹{Number(booking.car?.price || 0).toLocaleString("en-IN")}</strong>
             </div>
           </div>
         </div>
@@ -260,6 +341,18 @@ const BookingDetails = () => {
                 )
               }
             > 💳 Make Payment
+            </button>
+          )}
+          {booking.status !== "Cancelled" &&
+           new Date() < new Date(booking.returnDate) && (
+            <button
+              type="button"
+              className="booking-details-cancel-btn"
+              onClick={() =>
+                handleCancelBooking(booking.bookingId)
+              }
+            >
+              Cancel Booking
             </button>
           )}
         <button

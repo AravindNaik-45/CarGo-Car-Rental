@@ -146,6 +146,20 @@
 .booking-details-back-btn:hover {
   background-color: #333333;
 }
+.booking-details-cancel-btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background-color: #dc3545;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.booking-details-cancel-btn:hover {
+  background-color: #b02a37;
+}
 .booking-details-empty {
   max-width: 600px;
   margin: 100px auto;
@@ -238,9 +252,6 @@
 }
 .booking-details-timeline-pending {
   background-color: #d97706;
-}
-.booking-details-timeline-cancelled {
-  background-color: #dc3545;
 }
 .booking-details-timeline-cancelled {
   background-color: #dc3545;
@@ -372,9 +383,6 @@
   .booking-details-id-section {
     gap: 15px;
   }
-  .booking-details-total-section strong {
-    font-size: 22px;
-  }
   .booking-details-cancelled-message {
     font-size: 13px;
   }
@@ -382,6 +390,8 @@
     flex-direction: column;
     align-items: stretch;
   }
+  .booking-details-payment-btn,
+  .booking-details-cancel-btn,
   .booking-details-print-btn,
   .booking-details-back-btn {
     width: 100%;
