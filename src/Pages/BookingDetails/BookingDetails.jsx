@@ -132,9 +132,9 @@ const BookingDetails = () => {
              </p>
              <h2>{booking.car?.name || "Unknown Car"}</h2>
             <p>
-              ⭐ {booking.car.rating} &nbsp; | &nbsp;
-              {booking.car.seats} Seats &nbsp; | &nbsp;
-              {booking.car.transmission}
+              ⭐ {booking.car?.rating || "N/A"} &nbsp; | &nbsp;
+              {booking.car?.seats || "N/A"} Seats &nbsp; | &nbsp;
+              {booking.car?.transmission || "N/A"}
             </p>
             <div
               className={
@@ -145,16 +145,28 @@ const BookingDetails = () => {
             >
               {booking.status || "Confirmed"}
             </div>
-            {booking.status === "Cancelled" && (
-              <p className="booking-details-cancelled-message">
-                This booking has been cancelled and is no longer active.
+            {booking.status === "Cancelled" ? (
+              <p className="booking-details-action-message">
+                This booking has been cancelled.
+              </p>
+            ) : new Date() >= new Date(booking.returnDate) ? (
+              <p className="booking-details-action-message">
+                This rental period has ended.
+              </p>
+            ) : booking.paymentStatus === "Paid" ? (
+              <p className="booking-details-action-message">
+                Payment completed. You can cancel this booking before the rental period ends.
+              </p>
+            ) : (
+              <p className="booking-details-action-message">
+                Payment is pending. You can complete payment or cancel this booking.
               </p>
             )}
           </div>
         </div>
         <div className="booking-details-id-section">
           <span>Booking ID</span>
-          <strong>{booking.bookingId}</strong>
+          <strong>{booking.bookingId || "N/A"}</strong>
         </div>
         {booking.createdAt && (
           <div className="booking-details-created-section">
@@ -182,48 +194,56 @@ const BookingDetails = () => {
               </span>
             </div>
           </div>
-          <div className="booking-details-timeline-line"></div>
-          <div className="booking-details-timeline-item">
-            <div className="booking-details-timeline-dot">
-              ✓
-            </div>
-            <div className="booking-details-timeline-content">
-              <strong>
-                {booking.status === "Cancelled"
-                  ? "Booking Cancelled"
-                  : "Booking Confirmed"}
-              </strong>
-              <span>
-                {booking.status === "Cancelled"
-                  ? "This booking is cancelled"
-                  : "Your car booking is confirmed"}
-              </span>
-            </div>
+        {/* Payment Timeline */}
+        <div className="booking-details-timeline-line"></div>
+        <div className="booking-details-timeline-item">
+          <div
+            className={
+              booking.paymentStatus === "Paid"
+                ? "booking-details-timeline-dot"
+                : "booking-details-timeline-dot booking-details-timeline-pending"
+            }
+          >
+            {booking.paymentStatus === "Paid" ? "✓" : "!"}
           </div>
-          <div className="booking-details-timeline-line"></div>
-          <div className="booking-details-timeline-item">
-            <div
-              className={
-                booking.paymentStatus === "Paid"
-                  ? "booking-details-timeline-dot"
-                  : "booking-details-timeline-dot booking-details-timeline-pending"
-              }
-            >
-              {booking.paymentStatus === "Paid" ? "✓" : "!"}
-            </div>
-            <div className="booking-details-timeline-content">
-              <strong>
-                {booking.paymentStatus === "Paid"
-                  ? "Payment Completed"
-                  : "Payment Pending"}
-              </strong>
-              <span>
-                {booking.paymentStatus === "Paid"
-                  ? `Paid via ${booking.paymentMethod || "Online"}`
-                  : "Complete payment to confirm payment status"}
-              </span>
-            </div>
+          <div className="booking-details-timeline-content">
+            <strong>
+              {booking.paymentStatus === "Paid"
+                ? "Payment Completed"
+                : "Payment Pending"}
+            </strong>
+            <span>
+              {booking.paymentStatus === "Paid"
+                ? `Paid via ${booking.paymentMethod || "Online"}`
+                : "Complete payment to confirm payment status"}
+            </span>
           </div>
+        </div>
+        {/* Booking Status Timeline */}
+        <div className="booking-details-timeline-line"></div>
+        <div className="booking-details-timeline-item">
+          <div
+            className={
+              booking.status === "Cancelled"
+                ? "booking-details-timeline-dot booking-details-timeline-cancelled"
+                : "booking-details-timeline-dot"
+            }
+          >
+            {booking.status === "Cancelled" ? "!" : "✓"}
+          </div>
+          <div className="booking-details-timeline-content">
+            <strong>
+              {booking.status === "Cancelled"
+                ? "Booking Cancelled"
+                : "Booking Confirmed"}
+            </strong>
+            <span>
+              {booking.status === "Cancelled"
+                ? "This booking is cancelled"
+                : "Your car booking is confirmed"}
+            </span>
+          </div>
+        </div>
         </div>
         {/* ADD REFUND INFORMATION HERE */}
         {booking.status === "Cancelled" &&
@@ -281,19 +301,19 @@ const BookingDetails = () => {
           <div className="booking-details-grid">
             <div className="booking-details-item">
               <span>Customer Name</span>
-              <strong>{booking.name}</strong>
+              <strong>{booking.name || "N/A"}</strong>
             </div>
             <div className="booking-details-item">
               <span>Email</span>
-              <strong>{booking.email}</strong>
+              <strong>{booking.email || "N/A"}</strong>
             </div>
             <div className="booking-details-item">
               <span>Phone</span>
-              <strong>{booking.phone}</strong>
+              <strong>{booking.phone || "N/A"}</strong>
             </div>
             <div className="booking-details-item">
               <span>Pickup Location</span>
-              <strong>{booking.location}</strong>
+              <strong>{booking.location || "N/A"}</strong>
             </div>
           </div>
         </div>
@@ -318,7 +338,11 @@ const BookingDetails = () => {
             </div>
             <div className="booking-details-item">
               <span>Rental Days</span>
-              <strong>{booking.rentalDays} {booking.rentalDays === 1 ? "Day" : "Days"}</strong>
+              <strong>
+                {Number(booking.rentalDays || 0)}{" "}
+                {Number(booking.rentalDays || 0) === 1
+                  ? "Day"
+                  : "Days"}</strong>
             </div>
             <div className="booking-details-item">
               <span>Price Per Day</span>
@@ -331,16 +355,17 @@ const BookingDetails = () => {
           <strong>₹{Number(booking.totalPrice || 0).toLocaleString("en-IN")}</strong>
         </div>
         <div className="booking-details-action-buttons">
-          {booking.paymentStatus !== "Paid" &&
-          booking.status !== "Cancelled" && (
+          {booking.status !== "Cancelled" &&
+          booking.paymentStatus !== "Paid" &&
+          new Date() < new Date(booking.returnDate) && (
             <button
               type="button"
               className="booking-details-payment-btn"
               onClick={() =>
-                navigate(`/payment/${booking.bookingId}`
-                )
+                navigate(`/payment/${booking.bookingId}`)
               }
-            > 💳 Make Payment
+            >
+              💳 Make Payment
             </button>
           )}
           {booking.status !== "Cancelled" &&

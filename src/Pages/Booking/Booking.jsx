@@ -105,7 +105,7 @@ function Booking() {
      "cargoBookings",
      JSON.stringify(existingBookings)
    );
-   navigate("/booking-confirmation",{
+   navigate( `/booking-confirmation?bookingId=${bookingDetails.bookingId}`,{
       state: bookingDetails
     }
   );
