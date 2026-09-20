@@ -39,6 +39,9 @@ const Payment = () => {
           "cargoBookings",
           JSON.stringify(updatedBookings)
         );
+        window.dispatchEvent(
+          new Event("cargoBookingsUpdated")
+        );
         setPaymentStatus("success");
       }, 1500);
     };

@@ -217,6 +217,7 @@
   gap: 12px;
   flex-wrap: wrap;
 }
+
 .my-booking-filter-btn {
   border: 1px solid #dddddd;
   background-color: #ffffff;
@@ -295,7 +296,26 @@
   background-color: #fff3cd;
   color: #856404;
 }
-
+.my-booking-status-confirmed {
+  color: #16a34a;
+  font-weight: 600;
+}
+.my-booking-status-cancelled {
+  color: #dc2626;
+  font-weight: 600;
+}
+.my-booking-status-completed {
+  color: #2563eb;
+  font-weight: 600;
+}
+.my-booking-status-pending {
+  color: #d97706;
+  font-weight: 600;
+}
+.my-booking-status-unknown {
+  color: #64748b;
+  font-weight: 600;
+}
 /* Mobile */
 @media (max-width: 600px) {
   .my-booking-bottom {

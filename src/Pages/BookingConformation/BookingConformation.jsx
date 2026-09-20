@@ -1,28 +1,50 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import "./BookingConformation.css"
+import { getBookingStatus, getBookingStatusClass } from "../../Utils/bookingStatus";
 
 const BookingConformation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [booking, setBooking] = useState(location.state || null);
   useEffect(() => {
-  if (booking) {
-    return;
-    }
-    const savedBookings =
-      JSON.parse(localStorage.getItem("cargoBookings")) || [];
-    const bookingId = new URLSearchParams(location.search).get("bookingId");
-    if (!bookingId) {
-      return;
-    }
-    const savedBooking = savedBookings.find(
-      (item) => String(item.bookingId) === String(bookingId)
+    const loadLatestBooking = () => {
+      const savedBookings =
+        JSON.parse(localStorage.getItem("cargoBookings")) || []; 
+      const bookingId = new URLSearchParams(
+        location.search
+      ).get("bookingId");
+      if (!bookingId) {
+        return;
+      }
+      const savedBooking = savedBookings.find(
+        (item) =>
+          String(item.bookingId) === String(bookingId)
+      );
+      if (savedBooking) {
+        setBooking(savedBooking);
+      }
+    };
+    loadLatestBooking();
+    window.addEventListener(
+      "storage",
+      loadLatestBooking
     );
-    if (savedBooking) {
-      setBooking(savedBooking);
-    }
-  }, [booking, location.search]);
+    window.addEventListener(
+      "cargoBookingsUpdated",
+      loadLatestBooking
+    );
+    return () => {
+      window.removeEventListener(
+        "storage",
+        loadLatestBooking
+      );
+      window.removeEventListener(
+        "cargoBookingsUpdated",
+        loadLatestBooking
+      );
+    };
+  }, [location.search]);
   if (!booking) {
     return (
       <div className="booking-confirmation-empty">
@@ -38,28 +60,40 @@ const BookingConformation = () => {
       </div>
     );
   }
+  const bookingStatus = getBookingStatus(booking);
+  const bookingStatusClass =
+  getBookingStatusClass(bookingStatus, "confirmation-status"
+  );
   return (
     <main className="confirmation-page">
       <section className="confirmation-card">
         {/* Booking Status Icon */}
         <div
           className={
-            booking.status === "Cancelled"
+            bookingStatus === "Cancelled"
               ? "confirmation-status-icon confirmation-status-icon-cancelled"
               : "confirmation-success-icon"
           }
         >
-          {booking.status === "Cancelled" ? "!" : "✓"}
+          {bookingStatus === "Cancelled" ? "!" : "✓"}
         </div>
         {/* Heading */}
         <h1>
-          {booking.status === "Cancelled"
-            ? "Booking Cancelled"
-            : "Booking Confirmed!"}
+          {bookingStatus === "Cancelled"
+          ? "Booking Cancelled"
+          : bookingStatus === "Pending Payment"
+          ? "Payment Pending"
+          : bookingStatus === "Completed"
+          ? "Rental Completed"
+          : "Booking Confirmed!"}
         </h1>
         <p className="confirmation-message">
-          {booking.status === "Cancelled"
+          {bookingStatus === "Cancelled"
             ? "This booking has been cancelled."
+            : bookingStatus === "Pending Payment"
+            ? "Your booking has been created. Complete payment to confirm your rental."
+            : bookingStatus === "Completed"
+            ? "Your rental period has been completed."
             : "Your car has been successfully booked."}
         </p>
         {/* Booking ID */}
@@ -138,37 +172,74 @@ const BookingConformation = () => {
         <div className="confirmation-status">
         <div className="confirmation-status-item">
             <span>Booking Status</span>
-            <strong
-              className={
-                booking.status === "Cancelled"
-                  ? "confirmation-status-cancelled"
-                  : "confirmation-status-confirmed"
-              }
-            >
-              {booking.status || "Confirmed"}
+            <strong className={bookingStatusClass}>
+              {bookingStatus}
             </strong>
           </div>
           {booking.status === "Cancelled" && (
+            <>
             <div className="confirmation-status-item">
               <span>Cancellation Reason</span>
               <strong>
                 {booking.cancellationReason || "Cancelled by customer"}
               </strong>
             </div>
-          )}
-          {booking.status === "Cancelled" &&
-            booking.refundAmount > 0 && (
+          <div className="confirmation-status-item">
+            <span>Cancelled On</span>
+            <strong>
+              {booking.cancelledAt
+                ? new Date(
+                  booking.cancelledAt
+                ).toLocaleString("en-IN")
+                : "N/A"}
+            </strong>
+          </div>
+
               <div className="confirmation-status-item">
-                <span>Refund Status</span>
-                <strong>
-                  {booking.refundStatus || "Refund Completed"}
-                </strong>
+              <span>Refund Status</span>
+              <strong>
+              {booking.refundStatus || "Not Applicable"}
+              </strong>
               </div>
+              {Number(booking.refundAmount || 0) > 0 && (
+                <div className="confirmation-status-item">
+                  <span>Refund Amount</span>
+                  <strong className="confirmation-refund-amount">
+                    ₹
+                    {Number(
+                      booking.refundAmount
+                    ).toLocaleString("en-IN")}
+                  </strong>
+                </div>
             )}
+            </>
+          )}
         </div>
+          {bookingStatus === "Cancelled" ? (
+          <p className="confirmation-action-message confirmation-action-message-cancelled">
+            This booking is no longer active. You can view its details or return
+            to My Bookings.
+          </p>
+        ) : bookingStatus === "Pending Payment" ? (
+          <p className="confirmation-action-message confirmation-action-message-pending">
+            Your booking has been created. Please complete payment to confirm your
+            car rental.
+          </p>
+        ) : bookingStatus === "Completed" ? (
+          <p className="confirmation-action-message">
+            This rental has been completed. You can view the booking details from
+            the button below.
+          </p>
+        ) : (
+          <p className="confirmation-action-message">
+            Your booking is active. You can view the complete booking details from
+            the button below.
+          </p>
+        )}
         {/* Button */}
         <div className="confirmation-actions">
           <button
+            type="button"
             className="confirmation-details-btn"
             onClick={() =>
               navigate(`/my-booking-details/${booking.bookingId}`)
@@ -177,12 +248,14 @@ const BookingConformation = () => {
             View Booking Details
           </button>
           <button
+            type="button"
             className="confirmation-bookings-btn"
             onClick={() => navigate("/my-bookings")}
           >
             View My Bookings
           </button>
           <button
+            type="button"
             className="confirmation-home-btn"
             onClick={() => navigate("/")}
           >
