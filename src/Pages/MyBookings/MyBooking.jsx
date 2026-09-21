@@ -8,6 +8,8 @@ import {
 
 const MyBooking = () => {
   const [bookingFilter, setBookingFilter] = useState("All");
+  const [bookingSearch, setBookingSearch] = useState("");
+  const [bookingDateFilter, setBookingDateFilter] = useState("All");
   const navigate = useNavigate();
   // Get bookings from localStorage
   const savedBookings =
@@ -18,9 +20,72 @@ const MyBooking = () => {
       new Date(b.createdAt || 0) -
       new Date(a.createdAt || 0)
   );
+  const totalBookingsCount = savedBookings.length;
+  const pendingPaymentCount = savedBookings.filter(
+    (booking) =>
+      getBookingStatus(booking) === "Pending Payment"
+  ).length;
+  const confirmedBookingsCount = savedBookings.filter(
+    (booking) =>
+      getBookingStatus(booking) === "Confirmed"
+  ).length;
+  const completedBookingsCount = savedBookings.filter(
+    (booking) =>
+      getBookingStatus(booking) === "Completed"
+  ).length;
+  const cancelledBookingsCount = savedBookings.filter(
+    (booking) =>
+      getBookingStatus(booking) === "Cancelled"
+  ).length;
   // Filter bookings for display
   const filteredBookings = sortedBookings.filter((booking) => {
-    const bookingStatus = getBookingStatus(booking);
+  const bookingStatus = getBookingStatus(booking);
+  const searchValue = bookingSearch.trim().toLowerCase();
+  const matchesSearch =
+    String(booking.bookingId || "")
+      .toLowerCase()
+      .includes(searchValue) ||
+    String(booking.car?.name || "")
+      .toLowerCase()
+      .includes(searchValue) ||
+    String(booking.name || "")
+      .toLowerCase()
+      .includes(searchValue) ||
+    String(booking.email || "")
+      .toLowerCase()
+      .includes(searchValue);
+    if (!matchesSearch) {
+      return false;
+    }
+    // DATE FILTER
+    const pickupDate = booking.pickupDate
+      ? new Date(booking.pickupDate)
+      : null;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    if (pickupDate) {
+      pickupDate.setHours(0, 0, 0, 0);
+    }
+    let matchesDate = true;
+    if (bookingDateFilter === "Today") {
+      matchesDate =
+        pickupDate &&
+        pickupDate.getTime() === today.getTime();
+    }
+    if (bookingDateFilter === "Upcoming") {
+      matchesDate =
+        pickupDate &&
+        pickupDate > today;
+    }
+    if (bookingDateFilter === "Past") {
+      matchesDate =
+        pickupDate &&
+        pickupDate < today;
+    }
+    if (!matchesDate) {
+      return false;
+    }
+    // STATUS FILTER
     if (bookingFilter === "All") {
       return true;
     }
@@ -28,13 +93,13 @@ const MyBooking = () => {
       return bookingStatus === "Pending Payment";
     }
     if (bookingFilter === "Confirmed") {
-      return booking.status !== "Cancelled";
+      return bookingStatus === "Confirmed";
     }
     if (bookingFilter === "Completed") {
       return bookingStatus === "Completed";
     }
     if (bookingFilter === "Cancelled") {
-      return booking.status === "Cancelled";
+      return bookingStatus === "Cancelled";
     }
     return true;
   });
@@ -120,6 +185,67 @@ const MyBooking = () => {
     );
     window.location.reload();
   };
+  // Export bookings as CSV
+  const handleExportBookings = () => {
+    if (savedBookings.length === 0) {
+      alert("No bookings available to export.");
+      return;
+    }
+    const headers = [
+      "Booking ID",
+      "Car Name",
+      "Status",
+      "Payment Status",
+      "Pickup Location",
+      "Pickup Date",
+      "Return Date",
+      "Rental Days",
+      "Total Amount",
+      "Booked On"
+    ];
+    const rows = savedBookings.map((booking) => [
+      booking.bookingId || "",
+      booking.car?.name || "Car Details Unavailable",
+      getBookingStatus(booking),
+      booking.paymentStatus || "Pending",
+      booking.location || "",
+      booking.pickupDate || "",
+      booking.returnDate || "",
+      Number(booking.rentalDays || 0),
+      Number(booking.totalPrice || 0),
+      booking.createdAt
+        ? new Date(
+            booking.createdAt
+          ).toLocaleDateString("en-IN")
+        : ""
+    ]);
+    const csvContent = [
+      headers,
+      ...rows
+    ]
+      .map((row) =>
+        row
+          .map((value) =>
+            `"${String(value).replace(/"/g, '""')}"`
+          )
+          .join(",")
+      )
+      .join("\n");
+    const blob = new Blob(
+      [csvContent],
+      {
+        type: "text/csv;charset=utf-8;"
+      }
+    );
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "cargo-my-bookings.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
   return (
     <main className="my-bookings-page">
       {/* HEADER */}
@@ -132,6 +258,95 @@ const MyBooking = () => {
           View all your car rental bookings.
         </p>
       </section>
+      <div className="my-booking-summary">
+        <div className="my-booking-summary-card">
+          <span className="my-booking-summary-label">
+            Total Bookings
+          </span>
+          <strong className="my-booking-summary-number">
+            {totalBookingsCount}
+          </strong>
+        </div>
+        <div className="my-booking-summary-card">
+          <span className="my-booking-summary-label">
+            Pending Payment
+          </span>
+          <strong className="my-booking-summary-number">
+            {pendingPaymentCount}
+          </strong>
+        </div>
+        <div className="my-booking-summary-card">
+          <span className="my-booking-summary-label">
+            Confirmed
+          </span>
+          <strong className="my-booking-summary-number">
+            {confirmedBookingsCount}
+          </strong>
+        </div>
+        <div className="my-booking-summary-card">
+          <span className="my-booking-summary-label">
+            Completed
+          </span>
+          <strong className="my-booking-summary-number">
+            {completedBookingsCount}
+          </strong>
+        </div>
+        <div className="my-booking-summary-card">
+          <span className="my-booking-summary-label">
+            Cancelled
+          </span>
+          <strong className="my-booking-summary-number">
+            {cancelledBookingsCount}
+          </strong>
+        </div>
+      </div>
+      {/* SEARCH BOOKINGS */}
+      <div className="my-booking-search">
+        <input
+          type="text"
+          value={bookingSearch}
+          onChange={(event) =>
+            setBookingSearch(event.target.value)
+          }
+          placeholder="Search by booking ID, car name, name or email"
+          className="my-booking-search-input"
+        />
+        {bookingSearch && (
+          <button
+            type="button"
+            className="my-booking-search-clear"
+            onClick={() => setBookingSearch("")}
+          >
+            Clear
+          </button>
+        )}
+      </div>
+      <div className="my-booking-export-section">
+        <button
+          type="button"
+          className="my-booking-export-btn"
+          onClick={handleExportBookings}
+        >
+          📥 Export Bookings
+        </button>
+      </div>
+      <div className="my-booking-date-filter-section">
+        <span className="my-booking-date-filter-label">
+          Booking Date:
+        </span>
+        <select
+          value={bookingDateFilter}
+          onChange={(event) =>
+            setBookingDateFilter(event.target.value)
+          }
+          className="my-booking-date-filter-select"
+        >
+          <option value="All">All Dates</option>
+          <option value="Today">Today</option>
+          <option value="Upcoming">Upcoming</option>
+          <option value="Past">Past</option>
+        </select>
+      </div>
       {/* FILTER BUTTONS */}
       <section className="my-booking-filter-section">
         {/* ALL */}
@@ -186,7 +401,7 @@ const MyBooking = () => {
           {
             savedBookings.filter(
               (booking) =>
-                booking.status !== "Cancelled"
+                getBookingStatus(booking) === "Confirmed"
             ).length
           }
           )
@@ -229,7 +444,7 @@ const MyBooking = () => {
           {
             savedBookings.filter(
               (booking) =>
-                booking.status === "Cancelled"
+                getBookingStatus(booking) === "Cancelled"
             ).length
           }
           )
@@ -240,23 +455,42 @@ const MyBooking = () => {
         {filteredBookings.length === 0 ? (
           /* EMPTY STATE */
           <div className="my-bookings-empty">
-            <h2>
-              No {bookingFilter} Bookings
-            </h2>
-            <p>
-              There are no{" "}
-              {bookingFilter.toLowerCase()} bookings
-              to display.
-            </p>
-            <button
-              type="button"
-              className="my-bookings-browse-btn"
-              onClick={() => navigate("/")}
-            >
-              Browse Cars
-            </button>
-          </div>
-        ) : (
+              {bookingSearch.trim() ? (
+                <>
+                  <h2>No Bookings Found</h2>
+                  <p>
+                    No bookings match{" "}
+                    <strong>"{bookingSearch.trim()}"</strong>.
+                  </p>
+                  <button
+                    type="button"
+                    className="my-bookings-clear-search-btn"
+                    onClick={() => setBookingSearch("")}
+                  >
+                    Clear Search
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h2>
+                    No {bookingFilter} Bookings
+                  </h2>
+                  <p>
+                    There are no{" "}
+                    {bookingFilter.toLowerCase()} bookings
+                    to display.
+                  </p>
+                  <button
+                    type="button"
+                    className="my-bookings-browse-btn"
+                    onClick={() => navigate("/")}
+                  >
+                    Browse Cars
+                  </button>
+                </>
+              )}
+            </div>
+          ) : (
           /* BOOKING LIST */
           filteredBookings.map((booking) => {
             // Day 79: Get dynamic booking status
@@ -439,8 +673,8 @@ const MyBooking = () => {
                         View Details
                       </button>
                       {/* CANCEL BUTTON */}
-                      {booking.status !==
-                        "Cancelled" && (
+                      {bookingStatus !== "Cancelled" &&
+                        bookingStatus !== "Completed" && (
                         <button
                           type="button"
                           className="my-booking-cancel-btn"
