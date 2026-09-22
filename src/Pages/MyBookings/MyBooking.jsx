@@ -10,6 +10,11 @@ const MyBooking = () => {
   const [bookingFilter, setBookingFilter] = useState("All");
   const [bookingSearch, setBookingSearch] = useState("");
   const [bookingDateFilter, setBookingDateFilter] = useState("All");
+  const handleResetBookingFilters = () => {
+    setBookingSearch("");
+    setBookingFilter("All");
+    setBookingDateFilter("All");
+  };
   const navigate = useNavigate();
   // Get bookings from localStorage
   const savedBookings =
@@ -37,6 +42,40 @@ const MyBooking = () => {
     (booking) =>
       getBookingStatus(booking) === "Cancelled"
   ).length;
+  const  totalBookingValue = savedBookings.reduce(
+    (total, booking) =>
+      total + Number(booking.totalPrice || 0),
+    0
+  );
+  const paidAmount = savedBookings
+    .filter(
+      (booking) => booking.paymentStatus === "Paid"
+    )
+    .reduce(
+      (total, booking) =>
+        total + Number(booking.totalPrice || 0),
+      0
+    );
+  const refundedAmount = savedBookings.reduce(
+    (total, booking) =>
+      total + Number(booking.refundAmount || 0),
+    0
+  );
+  const netSpent =
+    paidAmount - refundedAmount;
+  const activeAmount = savedBookings
+    .filter((booking) => {
+      const status = getBookingStatus(booking);
+      return (
+        status === "Pending Payment" ||
+        status === "Confirmed"
+      );
+    })
+    .reduce(
+      (total, booking) =>
+        total + Number(booking.totalPrice || 0),
+      0
+    );
   // Filter bookings for display
   const filteredBookings = sortedBookings.filter((booking) => {
   const bookingStatus = getBookingStatus(booking);
@@ -57,14 +96,20 @@ const MyBooking = () => {
     if (!matchesSearch) {
       return false;
     }
-    // DATE FILTER
+  // DATE FILTER
     const pickupDate = booking.pickupDate
       ? new Date(booking.pickupDate)
+      : null;
+    const returnDate = booking.returnDate
+      ? new Date(booking.returnDate)
       : null;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     if (pickupDate) {
       pickupDate.setHours(0, 0, 0, 0);
+    }
+    if (returnDate) {
+      returnDate.setHours(0, 0, 0, 0);
     }
     let matchesDate = true;
     if (bookingDateFilter === "Today") {
@@ -79,8 +124,15 @@ const MyBooking = () => {
     }
     if (bookingDateFilter === "Past") {
       matchesDate =
+        returnDate &&
+        returnDate < today;
+    }
+    if (bookingDateFilter === "Active") {
+      matchesDate =
         pickupDate &&
-        pickupDate < today;
+        returnDate &&
+        pickupDate <= today &&
+        returnDate >= today;
     }
     if (!matchesDate) {
       return false;
@@ -299,6 +351,38 @@ const MyBooking = () => {
             {cancelledBookingsCount}
           </strong>
         </div>
+        <div className="my-booking-summary-card my-booking-financial-card">
+          <span className="my-booking-summary-label">
+            Total Booking Value
+          </span>
+          <strong className="my-booking-summary-number">
+            ₹{totalBookingValue.toLocaleString("en-IN")}
+          </strong>
+        </div>
+        <div className="my-booking-summary-card my-booking-financial-card">
+          <span className="my-booking-summary-label">
+            Paid Amount
+          </span>
+          <strong className="my-booking-summary-number">
+            ₹{paidAmount.toLocaleString("en-IN")}
+          </strong>
+        </div>
+        <div className="my-booking-summary-card my-booking-financial-card">
+          <span className="my-booking-summary-label">
+            Refunded Amount
+          </span>
+          <strong className="my-booking-summary-number">
+            ₹{refundedAmount.toLocaleString("en-IN")}
+          </strong>
+        </div>
+        <div className="my-booking-summary-card my-booking-financial-card">
+          <span className="my-booking-summary-label">
+            Net Spent
+          </span>     
+          <strong className="my-booking-summary-number">
+            ₹{netSpent.toLocaleString("en-IN")}
+          </strong>
+        </div>
       </div>
       {/* SEARCH BOOKINGS */}
       <div className="my-booking-search">
@@ -345,7 +429,17 @@ const MyBooking = () => {
           <option value="Today">Today</option>
           <option value="Upcoming">Upcoming</option>
           <option value="Past">Past</option>
+          <option value="Active">Active Today</option>
         </select>
+      </div>
+      <div className="my-booking-reset-filter-section">
+        <button
+          type="button"
+          className="my-booking-reset-filter-btn"
+          onClick={handleResetBookingFilters}
+        >
+          Reset Filters
+        </button>
       </div>
       {/* FILTER BUTTONS */}
       <section className="my-booking-filter-section">
@@ -455,48 +549,58 @@ const MyBooking = () => {
         {filteredBookings.length === 0 ? (
           /* EMPTY STATE */
           <div className="my-bookings-empty">
-              {bookingSearch.trim() ? (
-                <>
-                  <h2>No Bookings Found</h2>
-                  <p>
-                    No bookings match{" "}
-                    <strong>"{bookingSearch.trim()}"</strong>.
-                  </p>
-                  <button
-                    type="button"
-                    className="my-bookings-clear-search-btn"
-                    onClick={() => setBookingSearch("")}
-                  >
-                    Clear Search
-                  </button>
-                </>
-              ) : (
-                <>
-                  <h2>
-                    No {bookingFilter} Bookings
-                  </h2>
-                  <p>
-                    There are no{" "}
-                    {bookingFilter.toLowerCase()} bookings
-                    to display.
-                  </p>
-                  <button
-                    type="button"
-                    className="my-bookings-browse-btn"
-                    onClick={() => navigate("/")}
-                  >
-                    Browse Cars
-                  </button>
-                </>
-              )}
-            </div>
+            {savedBookings.length === 0 ? (
+              <>
+                <h2>No Bookings Yet</h2>
+                <p>
+                  You haven't made any car bookings yet.
+                </p>
+                <button
+                  type="button"
+                  className="my-bookings-browse-btn"
+                  onClick={() => navigate("/")}
+                >
+                  Browse Cars
+                </button>
+              </>
+            ) : bookingSearch.trim() ? (
+              <>
+                <h2>No Bookings Found</h2>
+                <p>
+                  No bookings match{" "}
+                  <strong>"{bookingSearch.trim()}"</strong>.
+                </p>
+                <button
+                  type="button"
+                  className="my-bookings-clear-search-btn"
+                  onClick={() => setBookingSearch("")}
+                >
+                  Clear Search
+                </button>
+              </>
+            ) : (
+              <>
+                <h2>No Matching Bookings</h2>
+                <p>
+                  No bookings match your selected filters.
+                </p>
+                <button
+                  type="button"
+                  className="my-bookings-browse-btn"
+                  onClick={handleResetBookingFilters}
+                >
+                  Reset Filters
+                </button>
+              </>
+            )}
+          </div>
           ) : (
           /* BOOKING LIST */
           filteredBookings.map((booking) => {
-            // Day 79: Get dynamic booking status
+            // Get dynamic booking status
             const bookingStatus =
               getBookingStatus(booking);
-            // Day 79: Get unique status class
+            // Get unique status class
             const bookingStatusClass =
               getBookingStatusClass(
                 bookingStatus,

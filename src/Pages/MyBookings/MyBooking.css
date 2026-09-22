@@ -315,6 +315,29 @@
 .my-booking-date-filter-select:focus {
   border-color: #2563eb;
 }
+/* RESET BOOKING FILTERS */
+.my-booking-reset-filter-section {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+.my-booking-reset-filter-btn {
+  padding: 10px 16px;
+  border: 1px solid #64748b;
+  border-radius: 8px;
+  background-color: #64748b;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.my-booking-reset-filter-btn:hover {
+  background-color: #475569;
+  border-color: #475569;
+}
 /* BOOKING SUMMARY */
 .my-booking-summary {
   display: grid;
@@ -445,6 +468,9 @@
   color: #64748b;
   font-weight: 600;
 }
+.my-booking-financial-card {
+  border-left: 4px solid #2563eb;
+}
 /* Mobile */
 @media (max-width: 600px) {
   .my-booking-bottom {
@@ -484,6 +510,9 @@
   .my-booking-date-filter-section {
     justify-content: center;
     flex-wrap: wrap;
+  }
+  .my-booking-reset-filter-section {
+    justify-content: center;
   }
 }
 @media (max-width: 700px) {
